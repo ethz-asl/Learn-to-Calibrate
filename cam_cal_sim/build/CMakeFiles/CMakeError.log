@@ -1,0 +1,49 @@
+Performing C SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD failed with the following output:
+Change Dir: /home/felix/Downloads/cam_cal_sim/cam_cal_sim/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/home/felix/miniconda3/bin/ninja cmTC_0534f && [1/2] Building C object CMakeFiles/cmTC_0534f.dir/src.c.o
+[2/2] Linking C executable cmTC_0534f
+FAILED: cmTC_0534f 
+: && /usr/bin/cc -DCMAKE_HAVE_LIBC_PTHREAD  -rdynamic CMakeFiles/cmTC_0534f.dir/src.c.o  -o cmTC_0534f   && :
+CMakeFiles/cmTC_0534f.dir/src.c.o: In function `main':
+src.c:(.text+0x3e): undefined reference to `pthread_create'
+src.c:(.text+0x4a): undefined reference to `pthread_detach'
+src.c:(.text+0x5b): undefined reference to `pthread_join'
+src.c:(.text+0x6f): undefined reference to `pthread_atfork'
+collect2: error: ld returned 1 exit status
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+#include <pthread.h>
+
+void* test_func(void* data)
+{
+  return data;
+}
+
+int main(void)
+{
+  pthread_t thread;
+  pthread_create(&thread, NULL, test_func, NULL);
+  pthread_detach(thread);
+  pthread_join(thread, NULL);
+  pthread_atfork(NULL, NULL, NULL);
+  pthread_exit(NULL);
+
+  return 0;
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/felix/Downloads/cam_cal_sim/cam_cal_sim/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/home/felix/miniconda3/bin/ninja cmTC_e4eb3 && [1/2] Building C object CMakeFiles/cmTC_e4eb3.dir/CheckFunctionExists.c.o
+[2/2] Linking C executable cmTC_e4eb3
+FAILED: cmTC_e4eb3 
+: && /usr/bin/cc -DCHECK_FUNCTION_EXISTS=pthread_create  -rdynamic CMakeFiles/cmTC_e4eb3.dir/CheckFunctionExists.c.o  -o cmTC_e4eb3  -lpthreads && :
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+ninja: build stopped: subcommand failed.
+
+
+

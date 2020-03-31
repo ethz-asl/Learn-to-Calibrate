@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<launch>
+ <!-- the following is a copy of empty_world.launch-->
+  <!-- these are the arguments you can pass this launch file, for example paused:=true -->
+  <arg name="paused" default="false"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="extra_gazebo_args" default=""/>
+  <arg name="gui" default="true"/>
+  <arg name="headless" default="false"/>
+  <arg name="debug" default="false"/>
+  <arg name="physics" default="ode"/>
+  <arg name="verbose" default="false"/>
+  <arg name="world_name" value="$(find cam_cal_sim)/worlds/simple_camera.world"/>
+  <!--arg name="world_name" default="worlds/empty.world"/--> <!-- Note: the world_name is with respect to GAZEBO_RESOURCE_PATH environmental variable -->
+
+  <!-- set use_sim_time flag -->
+  <group if="$(arg use_sim_time)">
+    <param name="/use_sim_time" value="true" />
+  </group>
+
+  <!-- set command arguments -->
+  <arg unless="$(arg paused)" name="command_arg1" value=""/>
+  <arg     if="$(arg paused)" name="command_arg1" value="-u"/>
+  <arg unless="$(arg headless)" name="command_arg2" value=""/>
+  <arg     if="$(arg headless)" name="command_arg2" value="-r"/>
+  <arg unless="$(arg verbose)" name="command_arg3" value=""/>
+  <arg     if="$(arg verbose)" name="command_arg3" value="--verbose"/>
+  <arg unless="$(arg debug)" name="script_type" value="gzserver"/>
+  <arg     if="$(arg debug)" name="script_type" value="debug"/>
+
+  <!-- start gazebo server-->
+  <node name="gazebo" pkg="gazebo_ros" type="$(arg script_type)" respawn="false" output="screen"
+	args="$(arg command_arg1) $(arg command_arg2) $(arg command_arg3) -e $(arg physics) $(arg extra_gazebo_args) $(arg world_name)" />
+	
+  <!-- start gazebo client -->
+  <group if="$(arg gui)">
+    <node name="gazebo_gui" pkg="gazebo_ros" type="gzclient" respawn="false" output="screen"/>
+  </group>
+  
+ <!-- here we add our own models to the simulation-->  
+  
+  <param name="robot_description" command="$(find xacro)/xacro.py '$(find cam_cal_sim)/xacro/simple_camera_velocity.xacro'" />
+
+<!--add image node-->
+<node name="image_view" pkg="image_view" type="image_view" args="image:=/simple_camera/image_raw"/>
+
+<!--add checkerboard move node-->
+<node name="move_checkerboard" pkg="cam_cal_sim" type="cam_cal_sim_node" output="screen"/>
+
+<!-- Spawn a robot into Gazebo -->
+<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model simple_camera" />
+
+<!-- Load the urdf into the parameter server. -->
+<param name="my_robot_description" textfile="$(find cam_cal_sim)/xacro/simple_camera_velocity.xacro"/>
+
+<node pkg="robot_state_publisher" type="robot_state_publisher" name="rob_st_pub" >
+  <remap from="robot_description" to="my_robot_description" />
+  <remap from="joint_states" to="different_joint_states" />
+</node>
+
+<node name="spawn_sdf" pkg="gazebo_ros" type="spawn_model" args="-file $(find cam_cal_sim)/models/small_checkerboard/small_checkerboard.sdf -sdf -model small_checkerboard -x -0.03 -y -0.03 -z 0.2" />
+
+</launch>

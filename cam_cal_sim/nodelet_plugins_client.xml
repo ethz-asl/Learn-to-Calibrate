@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<library path="lib/libmodel_client">
+  <class name="cam_cal_sim/model_client" type="cam_cal_sim::model_client" base_class_type="nodelet::Nodelet">
+  <description>
+  This is my nodelet.
+  </description>
+  </class>
+</library>
+

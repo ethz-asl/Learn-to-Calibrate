@@ -1,0 +1,275 @@
+<?xml version="1.0" ?>
+<robot name="simple_camera" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<!--
+  <link name="world">
+      <origin xyz="0.0 0.0 0.0"/>  
+  </link>
+  
+  <joint name="camera_joint" type="fixed">
+      <parent link="world"/>
+      <child link="camera_link"/>
+      <origin rpy="0.0 1.5708 1.5708" xyz="0 0.0 0.5"/>
+  </joint>
+-->
+  <link name="camera_base">
+    <visual>
+      <origin xyz="0.0 0 0.5" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.2 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0.0 0 0.5" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+  <joint name="camera_joint" type="fixed">
+      <parent link="camera_base"/>
+      <child link="camera_link"/>
+      <axis xyz="0 0 0" />
+      <origin rpy="0.0 1.57 1.57" xyz="0.0 0.0 0.5"/>
+  </joint>
+
+
+  <link name="camera_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.03 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+   <joint name="imu_joint" type="fixed">
+      <parent link="camera_base"/>
+      <child link="imu_link"/>
+      <axis xyz="0 0 0" />
+      <origin rpy="0.0 1.57 1.57" xyz="0.1 0.0 0.5"/>
+  </joint>
+
+  <link name="imu_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.03 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+<joint name="box_joint" type="fixed">
+      <parent link="camera_base"/>
+      <child link="box_link"/>
+      <axis xyz="0 0 0" />
+      <origin rpy="0.0 1.57 1.57" xyz="-0.1 0.0 0.5"/>
+  </joint>
+
+  <link name="box_link">
+    <visual>
+      <origin xyz="0.0 0 0.0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.03 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+  <!-- camera simulator plug-in -->
+  <gazebo reference="camera_link">
+    <sensor type="camera" name="camera">
+      <update_rate>30.0</update_rate>
+      <camera name="camera">
+        <horizontal_fov>0.6</horizontal_fov>
+        <image>
+          <width>640</width>
+          <height>480</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.005</near>
+          <far>0.9</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.0</stddev>
+        </noise>
+      </camera>
+      <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>0.0</updateRate>
+        <cameraName>simple_camera</cameraName>
+        <imageTopicName>image_raw</imageTopicName>
+        <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+        <frameName>camera_link</frameName>
+        <distortionK1>0.0</distortionK1>
+        <distortionK2>0.0</distortionK2>
+        <distortionK3>0.0</distortionK3>
+        <distortionT1>0.0</distortionT1>
+        <distortionT2>0.0</distortionT2>
+      </plugin>
+    </sensor>
+  </gazebo>  
+
+<gazebo reference="imu_link">
+    <gravity>true</gravity>
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>50</update_rate>
+      <visualize>true</visualize>
+      <topic>__default_topic__</topic>
+      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+        <topicName>imu</topicName>
+        <bodyName>imu_link</bodyName>
+        <updateRateHZ>50.0</updateRateHZ>
+        <topicName>imu_2</topicName>
+            <angular_velocity>
+                <x>
+                    <noise type="gaussian">
+                        <mean>0</mean>
+                        <stddev>0.0003394</stddev>
+                        <dynamic_bias_stddev>0.000038785</dynamic_bias_stddev>
+                    </noise>
+                </x>
+                <y>
+                    <noise type="gaussian">
+                        <mean>0</mean>
+                        <stddev>0.0003394</stddev>
+                        <dynamic_bias_stddev>0.000038785</dynamic_bias_stddev>
+                    </noise>
+                </y>
+                <z>
+                    <noise type="gaussian">
+                        <mean>0</mean>
+                        <stddev>0.0003394</stddev>
+                        <dynamic_bias_stddev>0.000038785</dynamic_bias_stddev>
+                    </noise>
+                </z>
+            </angular_velocity>
+            <linear_acceleration>
+                <x>
+                    <noise type="gaussian">
+                        <mean>0</mean>
+                        <stddev>0.004</stddev>
+                        <dynamic_bias_stddev>0.006</dynamic_bias_stddev>
+                    </noise>
+                </x>
+                <y>
+                    <noise type="gaussian">
+                        <mean>0</mean>
+                        <stddev>0.004</stddev>
+                        <dynamic_bias_stddev>0.006</dynamic_bias_stddev>
+                    </noise>
+                </y>
+                <z>
+                    <noise type="gaussian">
+                        <mean>0</mean>
+                        <stddev>0.004</stddev>
+                        <dynamic_bias_stddev>0.006</dynamic_bias_stddev>
+                    </noise>
+                </z>
+            </linear_acceleration>
+        <gaussianNoise>0.0</gaussianNoise>
+        <xyzOffset>0 0 0</xyzOffset>
+        <rpyOffset>0 0 0</rpyOffset>
+        <frameName>imu_link</frameName>
+      </plugin>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo>
+   <!--another imu model-->
+  <gazebo>
+    <plugin filename="librotors_gazebo_imu_plugin.so" name="rotors_gazebo_imu_plugin">
+      <!-- A good description of the IMU parameters can be found in the kalibr documentation:
+           https://github.com/ethz-asl/kalibr/wiki/IMU-Noise-Model-and-Intrinsics -->
+        <robotNamespace>firefly</robotNamespace> <!-- (string, required): ros namespace in which the messages are published -->
+        <linkName>imu_link</linkName> <!-- (string, required): name of the body which holds the IMU sensor -->
+        <imuTopic>imu_new</imuTopic> <!-- (string): name of the sensor output topic and prefix of service names (defaults to imu) -->
+        <gyroscopeNoiseDensity>0.0003394</gyroscopeNoiseDensity> <!-- Gyroscope noise density (two-sided spectrum) [rad/s/sqrt(Hz)] -->
+        <gyroscopeRandomWalk>0.000038785</gyroscopeRandomWalk> <!-- Gyroscope bias random walk [rad/s/s/sqrt(Hz)] -->
+        <gyroscopeBiasCorrelationTime>1000.0</gyroscopeBiasCorrelationTime> <!-- Gyroscope bias correlation time constant [s] -->
+        <gyroscopeTurnOnBiasSigma>0.0087</gyroscopeTurnOnBiasSigma> <!-- Gyroscope turn on bias standard deviation [rad/s] -->
+        <accelerometerNoiseDensity>0.004</accelerometerNoiseDensity> <!-- Accelerometer noise density (two-sided spectrum) [m/s^2/sqrt(Hz)] -->
+        <accelerometerRandomWalk>0.006</accelerometerRandomWalk> <!-- Accelerometer bias random walk. [m/s^2/s/sqrt(Hz)] -->
+        <accelerometerBiasCorrelationTime>300.0</accelerometerBiasCorrelationTime> <!-- Accelerometer bias correlation time constant [s] -->
+        <accelerometerTurnOnBiasSigma>0.1960</accelerometerTurnOnBiasSigma> <!-- Accelerometer turn on bias standard deviation [m/s^2] -->
+      </plugin>
+  </gazebo>
+<gazebo reference="imu_link">
+    <!--Modity gravity to be false-->
+    <gravity>true</gravity>
+    <sensor name="imu_sensor" type="imu">
+        <pose>0 0 0 0 0 0</pose>
+        <always_on>1</always_on>
+        <update_rate>50</update_rate>
+        <topic>__default_topic__</topic>
+        <imu>
+            <topicName>imu_2</topicName>
+            <bodyName>imu_link_link</bodyName>
+            <updateRateHZ>50.0</updateRateHZ>
+            <frameName>imu_2</frameName>
+            <angular_velocity>
+                <x>
+                    <noise type="gaussian">
+                        <mean>0</mean>
+                        <stddev>0.0003394</stddev>
+                        <dynamic_bias_stddev>0.000038785</dynamic_bias_stddev>
+                    </noise>
+                </x>
+                <y>
+                    <noise type="gaussian">
+                        <mean>0</mean>
+                        <stddev>0.0003394</stddev>
+                        <dynamic_bias_stddev>0.000038785</dynamic_bias_stddev>
+                    </noise>
+                </y>
+                <z>
+                    <noise type="gaussian">
+                        <mean>0</mean>
+                        <stddev>0.0003394</stddev>
+                        <dynamic_bias_stddev>0.000038785</dynamic_bias_stddev>
+                    </noise>
+                </z>
+            </angular_velocity>
+            <linear_acceleration>
+                <x>
+                    <noise type="gaussian">
+                        <mean>0</mean>
+                        <stddev>0.004</stddev>
+                        <dynamic_bias_stddev>0.006</dynamic_bias_stddev>
+                    </noise>
+                </x>
+                <y>
+                    <noise type="gaussian">
+                        <mean>0</mean>
+                        <stddev>0.004</stddev>
+                        <dynamic_bias_stddev>0.006</dynamic_bias_stddev>
+                    </noise>
+                </y>
+                <z>
+                    <noise type="gaussian">
+                        <mean>0</mean>
+                        <stddev>0.004</stddev>
+                        <dynamic_bias_stddev>0.006</dynamic_bias_stddev>
+                    </noise>
+                </z>
+            </linear_acceleration>
+        </imu>
+      </sensor>
+ </gazebo>
+</robot>
