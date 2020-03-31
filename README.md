@@ -1,6 +1,7 @@
-# Learn-to-Calibrate
+# CoRL 2020: Learn to Calibrate
 
-### CoRL 2020
+### Project description
+Since visual-inertial systems have been prevailed in a wide range of applications [1], precise calibration is of great importance. Typically, it requires performing sophisticated motion primitives in front of a calibration target. In this project, instead of performing this task manually and empirically, our goal is to apply reinforcement learning to learn the best motion primitives for enough calibration precision. With this result, we aim to achieve automatic calibration of an arbitrary visual-inertial system using a robotic arm.
 
 ### Timeline:
 * April 19: Midterm progress - Students submit their progress report.
@@ -8,4 +9,5 @@
 * June 14: Final project reports - Students submit their final reports for the projects.
 * July 07: CoRL-2020 submission deadline.
 
+### Code framework
 <img src="support_file/img/Selection_010.png" width = 100% height = 100% div align=left />
