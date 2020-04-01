@@ -11,3 +11,6 @@ Since visual-inertial systems have been prevailed in a wide range of application
 
 ### Code framework:
 <img src="support_file/img/Selection_010.png" width = 100% height = 100% div align=left />
+
+### To do:
+* Fix the simulation
