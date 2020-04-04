@@ -1,0 +1,32 @@
+# Generic MoveIt Travis Continuous Integration Configuration File
+# Works with all MoveIt! repositories/branches
+# Author: Dave Coleman, Jonathan Bohren
+sudo: required
+dist: trusty
+services:
+  - docker
+language:
+  - cpp
+  - python
+python:
+  - "2.7"
+compiler:
+  - gcc
+notifications:
+  email:
+    recipients:
+      - dave.hershberger@sri.com
+    on_success: change #[always|never|change] # default: change
+    on_failure: change #[always|never|change] # default: always
+
+env:
+  matrix:
+    - ROS_DISTRO=kinetic TEST="catkin_lint clang-format"
+    - ROS_DISTRO=kinetic ROS_REPO=ros
+    - ROS_DISTRO=melodic ROS_REPO=ros
+
+before_script:
+  - git clone -q https://github.com/ros-planning/moveit_ci.git .moveit_ci
+
+script:
+  - source .moveit_ci/travis.sh

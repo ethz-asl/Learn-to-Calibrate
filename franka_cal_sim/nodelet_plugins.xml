@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<library path="lib/libfranka_cal_sim">
+  <class name="franka_cal_sim/simulation_server" type="franka_cal_sim::simulation_server" base_class_type="nodelet::Nodelet">
+  <description>
+  This is my nodelet.
+  </description>
+  </class>
+  <class name="franka_cal_sim/model_client" type="franka_cal_sim::model_client" base_class_type="nodelet::Nodelet">
+  <description>
+  This is my nodelet.
+  </description>
+  </class>
+</library>
+
