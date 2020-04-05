@@ -44,7 +44,7 @@ roslaunch franka_cal_sim action_srv_nodelet.launch
 * 20200404: Fix the simulation
 
 ### 2.3 To do:
-* state estimation: Camera intrinsic 
+* State estimation: Camera intrinsic 
 
 ### 2.4 Useful links:
 * [Github repo: franka_gazebo](https://github.com/mkrizmancic/franka_gazebo.git)
