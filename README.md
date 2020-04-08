@@ -4,7 +4,7 @@
 ### 1.1 Project description:
 Since visual-inertial systems have been prevailed in a wide range of applications, precise calibration is of great importance. Typically, it requires performing sophisticated motion primitives in front of a calibration target. In this project, instead of performing this task manually and empirically, our goal is to apply reinforcement learning to learn the best motion primitives for enough calibration precision. With this result, we aim to achieve automatic calibration of an arbitrary visual-inertial system using a robotic arm.
 
-### 1.2 Build Instructions for Ubuntu:
+### 1.2 Build Instructions for Ubuntu 18.04 LTS:
 
 *Install required dependencies:*
 ```
