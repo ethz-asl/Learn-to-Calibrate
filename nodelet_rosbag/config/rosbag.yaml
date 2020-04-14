@@ -1,3 +1,0 @@
-rosbag_path: /home/felix/test_ws/result
-
-rosbag_record_topics: /simple_camera/image_raw

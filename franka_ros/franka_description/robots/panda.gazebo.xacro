@@ -91,7 +91,7 @@
         <!-- camera simulator plug-in -->
 	  <gazebo reference="${robot_name}_leftfinger">
 	    <sensor type="camera" name="camera">
-	      <update_rate>3.0</update_rate><!--20-->
+	      <update_rate>7.0</update_rate><!--20-->
 	      <camera name="camera">
                 <pose>0.0 0.0 0.1 0 -1.57 0</pose>
 		<horizontal_fov>1</horizontal_fov>

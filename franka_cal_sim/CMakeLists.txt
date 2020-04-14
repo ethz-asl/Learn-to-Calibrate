@@ -175,6 +175,7 @@ target_link_libraries(${PROJECT_NAME}
 #############
 catkin_install_python(PROGRAMS
   python/estimation_service_server.py
+  python/estimation_service_server_new.py
   python/RL_algo.py
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/python
 )

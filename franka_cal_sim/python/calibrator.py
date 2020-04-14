@@ -1,8 +1,7 @@
 #!/usr/bin/env python
-#
 # Software License Agreement (BSD License)
 #
-# Copyright (c) 2009, Willow Garage, Inc.
+# Copyright (c) 2008, Willow Garage, Inc.
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -15,7 +14,7 @@
 #    copyright notice, this list of conditions and the following
 #    disclaimer in the documentation and/or other materials provided
 #    with the distribution.
-#  * Neither the name of the Willow Garage nor the names of its
+#  * Neither the name of Willow Garage, Inc. nor the names of its
 #    contributors may be used to endorse or promote products derived
 #    from this software without specific prior written permission.
 #
@@ -31,6 +30,11 @@
 # LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+#
+# Revision $Id$
+
+## Simple talker demo that listens to std_msgs/Strings published
+## to the 'chatter' topic
 
 from __future__ import print_function
 try:
@@ -150,7 +154,7 @@ def _get_corners(img, board, refine = True, checkerboard_flags=0):
     else:
         mono = img
     (ok, corners) = cv2.findChessboardCorners(mono, (board.n_cols, board.n_rows), flags = cv2.CALIB_CB_ADAPTIVE_THRESH |
-                                              cv2.CALIB_CB_NORMALIZE_IMAGE | checkerboard_flags)
+                                                                                          cv2.CALIB_CB_NORMALIZE_IMAGE | checkerboard_flags)
     if not ok:
         return (ok, corners)
 
@@ -167,7 +171,7 @@ def _get_corners(img, board, refine = True, checkerboard_flags=0):
             corners = numpy.copy(numpy.flipud(corners))
     else:
         direction_corners=(corners[-1]-corners[0])>=numpy.array([[0.0,0.0]])
-    
+
         if not numpy.all(direction_corners):
             if not numpy.any(direction_corners):
                 corners = numpy.copy(numpy.flipud(corners))
@@ -190,7 +194,7 @@ def _get_corners(img, board, refine = True, checkerboard_flags=0):
                 min_distance = min(min_distance, _pdist(corners[index, 0], corners[index + board.n_cols, 0]))
         radius = int(math.ceil(min_distance * 0.5))
         cv2.cornerSubPix(mono, corners, (radius,radius), (-1,-1),
-                                      ( cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.1 ))
+                         ( cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.1 ))
 
     return (ok, corners)
 
@@ -237,8 +241,8 @@ class Calibrator(object):
     """
     Base class for calibration system
     """
-    def __init__(self, boards, flags=0, fisheye_flags = 0, pattern=Patterns.Chessboard, name='', 
-    checkerboard_flags=cv2.CALIB_CB_FAST_CHECK, max_chessboard_speed = -1.0):
+    def __init__(self, boards, flags=0, fisheye_flags = 0, pattern=Patterns.Chessboard, name='',
+                 checkerboard_flags=cv2.CALIB_CB_FAST_CHECK, max_chessboard_speed = -1.0):
         # Ordering the dimensions for the different detectors is actually a minefield...
         if pattern == Patterns.Chessboard:
             # Make sure n_cols > n_rows to agree with OpenCV CB detector output
@@ -396,10 +400,8 @@ class Calibrator(object):
     def get_corners(self, img, refine = True):
         """
         Use cvFindChessboardCorners to find corners of chessboard in image.
-
         Check all boards. Return corners for first chessboard that it detects
         if given multiple size chessboards.
-
         Returns (ok, corners, board)
         """
 
@@ -416,11 +418,9 @@ class Calibrator(object):
         """
         Downsample the input image to approximately VGA resolution and detect the
         calibration target corners in the full-size image.
-
         Combines these apparently orthogonal duties as an optimization. Checkerboard
         detection is too expensive on large images, so it's better to do detection on
         the smaller display image and scale the corners back up to the correct size.
-
         Returns (scrib, corners, downsampled_corners, board, (x_scale, y_scale)).
         """
         # Scale the input image down to ~VGA size
@@ -454,7 +454,7 @@ class Calibrator(object):
                     else:
                         mono = img
                     cv2.cornerSubPix(mono, corners_unrefined, (radius,radius), (-1,-1),
-                                                  ( cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.1 ))
+                                     ( cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.1 ))
                     corners = corners_unrefined
                 else:
                     corners = downsampled_corners
@@ -581,8 +581,7 @@ class Calibrator(object):
 
 def image_from_archive(archive, name):
     """
-    Load image PGM file from tar archive. 
-
+    Load image PGM file from tar archive.
     Used for tarfile loading and unit test.
     """
     member = archive.getmember(name)
@@ -616,7 +615,6 @@ class StereoDrawable(ImageDrawable):
 class MonoCalibrator(Calibrator):
     """
     Calibration class for monocular cameras::
-
         images = [cv2.imread("mono%d.png") for i in range(8)]
         mc = MonoCalibrator()
         mc.cal(images)
@@ -642,9 +640,7 @@ class MonoCalibrator(Calibrator):
         """
         :param images: source images containing chessboards
         :type images: list of :class:`cvMat`
-
         Find chessboards in all images.
-
         Return [ (corners, ChessboardInfo) ]
         """
         self.size = (images[0].shape[1], images[0].shape[0])
@@ -657,10 +653,9 @@ class MonoCalibrator(Calibrator):
 
     def cal_fromcorners(self, good):
         """
-        :param good: Good corner positions and boards 
+        :param good: Good corner positions and boards
         :type good: [(corners, ChessboardInfo)]
 
-        
         """
         boards = [ b for (_, b) in good ]
 
@@ -671,11 +666,11 @@ class MonoCalibrator(Calibrator):
 
         if self.camera_model == CAMERA_MODEL.PINHOLE:
             reproj_err, self.intrinsics, dist_coeffs, rvecs, tvecs = cv2.calibrateCamera(
-                       opts, ipts,
-                       self.size,
-                       intrinsics_in,
-                       None,
-                       flags = self.calib_flags)
+                opts, ipts,
+                self.size,
+                intrinsics_in,
+                None,
+                flags = self.calib_flags)
             # OpenCV returns more than 8 coefficients (the additional ones all zeros) when CALIB_RATIONAL_MODEL is set.
             # The extra ones include e.g. thin prism coefficients, which we are not interested in.
             self.distortion = dist_coeffs.flat[:8].reshape(-1, 1)
@@ -719,7 +714,6 @@ class MonoCalibrator(Calibrator):
         """
         :param src: source image
         :type src: :class:`cvMat`
-
         Apply the post-calibration undistortion to the source image
         """
         return cv2.remap(src, self.mapx, self.mapy, cv2.INTER_LINEAR)
@@ -728,7 +722,6 @@ class MonoCalibrator(Calibrator):
         """
         :param src: N source pixel points (u,v) as an Nx2 matrix
         :type src: :class:`cvMat`
-
         Apply the post-calibration undistortion to the source points
         """
         if self.camera_model == CAMERA_MODEL.PINHOLE:
@@ -805,7 +798,6 @@ class MonoCalibrator(Calibrator):
         """
         Detects the calibration target and, if found and provides enough new information,
         adds it to the sample database.
-
         Returns a MonoDrawable message with the display image and progress info.
         """
         gray = self.mkgray(msg)
@@ -847,7 +839,7 @@ class MonoCalibrator(Calibrator):
                     self.db.append((params, gray))
                     self.good_corners.append((corners, board))
                     print(("*** Added sample %d, p_x = %.3f, p_y = %.3f, p_size = %.3f, skew = %.3f" % tuple([len(self.db)] + params)))
-        
+
         self.last_frame_corners = corners
         rv = MonoDrawable()
         rv.scrib = scrib
@@ -902,7 +894,6 @@ class MonoCalibrator(Calibrator):
 class StereoCalibrator(Calibrator):
     """
     Calibration class for stereo cameras::
-
         limages = [cv2.imread("left%d.png") for i in range(8)]
         rimages = [cv2.imread("right%d.png") for i in range(8)]
         sc = StereoCalibrator()
@@ -928,7 +919,6 @@ class StereoCalibrator(Calibrator):
         :type limages: list of :class:`cvMat`
         :param rimages: source right images containing chessboards
         :type rimages: list of :class:`cvMat`
-
         Find chessboards in images, and runs the OpenCV calibration solver.
         """
         goodcorners = self.collect_corners(limages, rimages)
@@ -963,7 +953,7 @@ class StereoCalibrator(Calibrator):
         lipts = [ l for (l, _, _) in good ]
         ripts = [ r for (_, r, _) in good ]
         boards = [ b for (_, _, b) in good ]
-        
+
         opts = self.mk_object_points(boards, True)
 
         flags = cv2.CALIB_FIX_INTRINSIC
@@ -974,34 +964,34 @@ class StereoCalibrator(Calibrator):
         if self.camera_model == CAMERA_MODEL.PINHOLE:
             if LooseVersion(cv2.__version__).version[0] == 2:
                 cv2.stereoCalibrate(opts, lipts, ripts, self.size,
-                                   self.l.intrinsics, self.l.distortion,
-                                   self.r.intrinsics, self.r.distortion,
-                                   self.R,                            # R
-                                   self.T,                            # T
-                                   criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 1, 1e-5),
-                                   flags = flags)
+                                    self.l.intrinsics, self.l.distortion,
+                                    self.r.intrinsics, self.r.distortion,
+                                    self.R,                            # R
+                                    self.T,                            # T
+                                    criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 1, 1e-5),
+                                    flags = flags)
             else:
                 cv2.stereoCalibrate(opts, lipts, ripts,
-                                   self.l.intrinsics, self.l.distortion,
-                                   self.r.intrinsics, self.r.distortion,
-                                   self.size,
-                                   self.R,                            # R
-                                   self.T,                            # T
-                                   criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 1, 1e-5),
-                                   flags = flags)
+                                    self.l.intrinsics, self.l.distortion,
+                                    self.r.intrinsics, self.r.distortion,
+                                    self.size,
+                                    self.R,                            # R
+                                    self.T,                            # T
+                                    criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 1, 1e-5),
+                                    flags = flags)
         elif self.camera_model == CAMERA_MODEL.FISHEYE:
             if LooseVersion(cv2.__version__).version[0] == 2:
                 print("ERROR: You need OpenCV >3 to use fisheye camera model")
                 sys.exit()
             else:
                 cv2.fisheye.stereoCalibrate(opts, lipts, ripts,
-                                   self.l.intrinsics, self.l.distortion,
-                                   self.r.intrinsics, self.r.distortion,
-                                   self.size,
-                                   self.R,                            # R
-                                   self.T,                            # T
-                                   criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 1, 1e-5), # 30, 1e-6
-                                   flags = flags)
+                                            self.l.intrinsics, self.l.distortion,
+                                            self.r.intrinsics, self.r.distortion,
+                                            self.size,
+                                            self.R,                            # R
+                                            self.T,                            # T
+                                            criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 1, 1e-5), # 30, 1e-6
+                                            flags = flags)
 
         self.set_alpha(0.0)
 
@@ -1014,45 +1004,45 @@ class StereoCalibrator(Calibrator):
         """
         if self.camera_model == CAMERA_MODEL.PINHOLE:
             cv2.stereoRectify(self.l.intrinsics,
-                             self.l.distortion,
-                             self.r.intrinsics,
-                             self.r.distortion,
-                             self.size,
-                             self.R,
-                             self.T,
-                             self.l.R, self.r.R, self.l.P, self.r.P,
-                             alpha = a)
+                              self.l.distortion,
+                              self.r.intrinsics,
+                              self.r.distortion,
+                              self.size,
+                              self.R,
+                              self.T,
+                              self.l.R, self.r.R, self.l.P, self.r.P,
+                              alpha = a)
 
             cv2.initUndistortRectifyMap(self.l.intrinsics, self.l.distortion, self.l.R, self.l.P, self.size, cv2.CV_32FC1,
-                                       self.l.mapx, self.l.mapy)
+                                        self.l.mapx, self.l.mapy)
             cv2.initUndistortRectifyMap(self.r.intrinsics, self.r.distortion, self.r.R, self.r.P, self.size, cv2.CV_32FC1,
-                                       self.r.mapx, self.r.mapy)
+                                        self.r.mapx, self.r.mapy)
 
         elif self.camera_model == CAMERA_MODEL.FISHEYE:
             self.Q = numpy.zeros((4,4), dtype=numpy.float64)
-            
+
             flags = cv2.CALIB_ZERO_DISPARITY   # Operation flags that may be zero or CALIB_ZERO_DISPARITY .
-                            # If the flag is set, the function makes the principal points of each camera have the same pixel coordinates in the rectified views.
-                            # And if the flag is not set, the function may still shift the images in the horizontal or vertical direction 
-                            # (depending on the orientation of epipolar lines) to maximize the useful image area.
-            
+            # If the flag is set, the function makes the principal points of each camera have the same pixel coordinates in the rectified views.
+            # And if the flag is not set, the function may still shift the images in the horizontal or vertical direction
+            # (depending on the orientation of epipolar lines) to maximize the useful image area.
+
             cv2.fisheye.stereoRectify(self.l.intrinsics, self.l.distortion,
-                             self.r.intrinsics, self.r.distortion,
-                             self.size,
-                             self.R, self.T,
-                             flags,
-                             self.l.R, self.r.R,
-                             self.l.P, self.r.P,
-                             self.Q,
-                             self.size,
-                             a,
-                             1.0 )
+                                      self.r.intrinsics, self.r.distortion,
+                                      self.size,
+                                      self.R, self.T,
+                                      flags,
+                                      self.l.R, self.r.R,
+                                      self.l.P, self.r.P,
+                                      self.Q,
+                                      self.size,
+                                      a,
+                                      1.0 )
             self.l.P[:3,:3] = numpy.dot(self.l.intrinsics,self.l.R)
             self.r.P[:3,:3] = numpy.dot(self.r.intrinsics,self.r.R)
             cv2.fisheye.initUndistortRectifyMap(self.l.intrinsics, self.l.distortion, self.l.R, self.l.intrinsics, self.size, cv2.CV_32FC1,
-                                       self.l.mapx, self.l.mapy)
+                                                self.l.mapx, self.l.mapy)
             cv2.fisheye.initUndistortRectifyMap(self.r.intrinsics, self.r.distortion, self.r.R, self.r.intrinsics, self.size, cv2.CV_32FC1,
-                                       self.r.mapx, self.r.mapy)
+                                                self.r.mapx, self.r.mapy)
 
     def as_message(self):
         """
@@ -1086,7 +1076,7 @@ class StereoCalibrator(Calibrator):
 
     def ost(self):
         return (self.lrost(self.name + "/left", self.l.distortion, self.l.intrinsics, self.l.R, self.l.P, self.size) +
-          self.lrost(self.name + "/right", self.r.distortion, self.r.intrinsics, self.r.R, self.r.P, self.size))
+                self.lrost(self.name + "/right", self.r.distortion, self.r.intrinsics, self.r.R, self.r.P, self.size))
 
     def yaml(self, suffix, info):
         return self.lryaml(self.name + suffix, info.distortion, info.intrinsics, info.R, info.P, self.size, self.camera_model)
@@ -1145,8 +1135,8 @@ class StereoCalibrator(Calibrator):
         cc = board.n_cols
         cr = board.n_rows
         lengths = (
-            [l2(pt3d[cc * r + 0], pt3d[cc * r + (cc - 1)]) / (cc - 1) for r in range(cr)] +
-            [l2(pt3d[c + 0], pt3d[c + (cc * (cr - 1))]) / (cr - 1) for c in range(cc)])
+                [l2(pt3d[cc * r + 0], pt3d[cc * r + (cc - 1)]) / (cc - 1) for r in range(cr)] +
+                [l2(pt3d[c + 0], pt3d[c + (cc * (cr - 1))]) / (cr - 1) for c in range(cc)])
         return sum(lengths) / len(lengths)
 
     def handle_msg(self, msg):
@@ -1198,10 +1188,10 @@ class StereoCalibrator(Calibrator):
             # Draw any detected chessboards onto display (downsampled) images
             if lcorners is not None:
                 cv2.drawChessboardCorners(lscrib, (lboard.n_cols, lboard.n_rows),
-                                         ldownsampled_corners, True)
+                                          ldownsampled_corners, True)
             if rcorners is not None:
                 cv2.drawChessboardCorners(rscrib, (rboard.n_cols, rboard.n_rows),
-                                         rdownsampled_corners, True)
+                                          rdownsampled_corners, True)
 
             # Add sample to database only if it's sufficiently different from any previous sample
             if lcorners is not None and rcorners is not None and len(lcorners) == len(rcorners):
@@ -1210,7 +1200,7 @@ class StereoCalibrator(Calibrator):
                     self.db.append( (params, lgray, rgray) )
                     self.good_corners.append( (lcorners, rcorners, lboard) )
                     print(("*** Added sample %d, p_x = %.3f, p_y = %.3f, p_size = %.3f, skew = %.3f" % tuple([len(self.db)] + params)))
-        
+
         self.last_frame_corners = lcorners
         rv = StereoDrawable()
         rv.lscrib = lscrib
@@ -1263,7 +1253,7 @@ class StereoCalibrator(Calibrator):
 
         if not len(limages) == len(rimages):
             raise CalibrationException("Left, right images don't match. %d left images, %d right" % (len(limages), len(rimages)))
-        
+
         ##\todo Check that the filenames match and stuff
 
         self.cal(limages, rimages)
