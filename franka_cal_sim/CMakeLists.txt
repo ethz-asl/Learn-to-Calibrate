@@ -71,6 +71,9 @@ find_package(catkin REQUIRED COMPONENTS
 add_service_files(
    FILES
    actionSrv.srv
+   estimateSrv.srv
+   recordSrv.srv
+   RLSrv.srv
  )
 
 
@@ -170,6 +173,11 @@ target_link_libraries(${PROJECT_NAME}
 #############
 ## Install ##
 #############
+catkin_install_python(PROGRAMS
+  python/estimation_service_server.py
+  python/RL_algo.py
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/python
+)
 
 # all install targets should use catkin DESTINATION variables
 # See http://ros.org/doc/api/catkin/html/adv_user_guide/variables.html

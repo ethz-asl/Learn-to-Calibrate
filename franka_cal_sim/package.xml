@@ -101,6 +101,11 @@
   <build_depend>moveit_ros_perception</build_depend>
   <build_export_depend>moveit_ros_perception</build_export_depend>
   <exec_depend>moveit_ros_perception</exec_depend>
+  <build_depend>python-numpy</build_depend>
+  <exec_depend>python-numpy</exec_depend>
+  <build_depend>python-tensorflow</build_depend>
+  <exec_depend>python-tensorflow</exec_depend>
+
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
