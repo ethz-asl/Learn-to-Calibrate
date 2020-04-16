@@ -31,7 +31,7 @@ cd ../
 catkin build
 source ~/catkin_ws/devel/setup.bash
 ```
-(Note: please change the file saving directory in *franka_cal_sim/python/RL_algo.py* before training.)
+(Note: please change the file saving directory in *franka_cal_sim/python/RL_algo.py* before training!)
 
 ### 1.4 Training:
 ```
