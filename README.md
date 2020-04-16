@@ -4,7 +4,11 @@
 ### 1.1 Project description:
 Since visual-inertial systems have been prevailed in a wide range of applications, precise calibration is of great importance. Typically, it requires performing sophisticated motion primitives in front of a calibration target. In this project, instead of performing this task manually and empirically, our goal is to apply reinforcement learning to learn the best motion primitives for enough calibration precision. With this result, we aim to achieve automatic calibration of an arbitrary visual-inertial system using a robotic arm.
 
-### 1.2 Build Instructions for Ubuntu 18.04 LTS:
+### 1.2 Documents:
+* [Learn to Calibration: RL model for Camera Calibration.pdf](https://github.com/clthegoat/Learn-to-Calibrate/blob/master/Learn%20to%20Calibration:%20RL%20model%20for%20Camera%20Calibration.pdf)
+* [Slides 09.04.2020/16.04.2020](https://docs.google.com/presentation/d/1DPJb24JQD701VRsQbYJ4nKLdskhTotXbzlAWpr1vjmk/edit?usp=sharing)
+* [Slides 02.04.2020](https://docs.google.com/presentation/d/1Za7tgKgjiNe5ZtPUaQ1Bm_m_TqmLSi22NiF5j9SeCd0/edit?usp=sharing)
+### 1.3 Build Instructions for Ubuntu 18.04 LTS:
 
 *Install required dependencies:*
 ```
@@ -27,13 +31,17 @@ source ~/catkin_ws/devel/setup.bash
 ```
 (if you fail in this step, try to find another computer with clean system or reinstall Ubuntu and ROS)
 
-### 1.3 Training:
+### 1.4 Training:
 ```
 roslaunch franka_cal_sim action_srv_nodelet.launch
 ```
 
-### 1.4 Code framework:
+### 1.5 Code framework:
+#### Without Kalibr
+<img src="support_file/img/Selection_057.png" width = 100% height = 100% div align=left />
 
+#### With Kalibr
+<img src="support_file/img/Selection_010.png" width = 100% height = 100% div align=left />
 
 
 ## 2 Development
@@ -44,12 +52,15 @@ roslaunch franka_cal_sim action_srv_nodelet.launch
 * July 07: CoRL-2020 submission deadline.
 
 ### 2.2 Change log:
-* 20200404: Fix the simulation
+* 20201604: Implement RL algorithm.
 
 ### 2.3 To do:
-* State estimation: Camera intrinsic 
+* Midterm Report (ddl: 20200419)
+* State estimation: Camera-IMU Calibration
+* RL: Hyperparameter tuning
 
 ### 2.4 Useful links:
+* [Github repo: Kalibr](https://github.com/ethz-asl/kalibr)
 * [Github repo: franka_gazebo](https://github.com/mkrizmancic/franka_gazebo.git)
 * [Blog: Integrating FRANKA EMIKA Panda robot into Gazebo](https://erdalpekel.de/?p=55)
 * [Github repo: panda_simulation](https://github.com/erdalpekel/panda_simulation.git)
