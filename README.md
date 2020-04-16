@@ -54,6 +54,8 @@ roslaunch franka_cal_sim action_srv_nodelet_checkerboard.launch
 * July 07: CoRL-2020 submission deadline.
 
 ### 2.2 Change log:
+* 20200404: Fix the simulation
+* 20201304: Change the camera intrinsic calibration part
 * 20201604: Implement RL algorithm.
 
 ### 2.3 To do:
