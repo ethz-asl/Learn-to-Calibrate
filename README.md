@@ -27,7 +27,7 @@ source ~/catkin_ws/devel/setup.bash
 ```
 (if you fail in this step, try to find another computer with clean system or reinstall Ubuntu and ROS)
 
-### 1.3 Examples:
+### 1.3 Training:
 ```
 roslaunch franka_cal_sim action_srv_nodelet.launch
 ```
