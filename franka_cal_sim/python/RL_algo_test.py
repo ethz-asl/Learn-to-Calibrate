@@ -78,7 +78,7 @@ def simulation():
     state = np.ones(4)*500
     outfile = TemporaryFile()
     outfile.seek(0)
-    action = np.loadtxt('/home/yunke/prl_proj/panda_ws/src/franka_cal_sim/python/action.txt', dtype=float)
+    action = np.loadtxt('/home/yunke/prl_proj/panda_ws/src/franka_cal_sim/action.txt', dtype=float)
     for t in range(10):
         reset()
         state,reward,done = step(state,action)

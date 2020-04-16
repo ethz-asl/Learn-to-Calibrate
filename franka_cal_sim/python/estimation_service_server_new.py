@@ -90,6 +90,7 @@ max_y = 0
 min_x = 0
 min_y = 0
 obs_n = 0
+cov_n = 0
 
 class ChessboardInfo(object):
     def __init__(self, n_cols=0, n_rows=0, dim=0.0):
@@ -699,6 +700,7 @@ def estimate_callback(req):
     global imgpoints
     global db
     global obs_n
+    global cov_n
     global good_corners
     global last_frame_corners
     global goodenough
@@ -754,8 +756,8 @@ def estimate_callback(req):
                           len(imgpoints))
 
             ####progress measures camera coverage
-            res.coverage = np.sum(progress)-obs_n
-            obs_n = res.obs
+            res.coverage = np.sum(progress)-cov_n
+            cov_n = np.sum(progress)
             # get parameter update
             # compute the observation
             res = compute_obsevation(res, imu_data)
@@ -763,8 +765,9 @@ def estimate_callback(req):
                 best_mtx[0, 0], best_mtx[1, 1], best_mtx[0, 2], best_mtx[1, 2]
             ]
 
-            if(len(imgpoints)<100):
-                res.obs = 1.0*len(imgpoints)/len(local_img_data)
+
+            res.obs = 1.0*len(db)/20.0-obs_n
+            obs_n = 1.0*len(db)/20.0
             rospy.loginfo(rospy.get_caller_id() + 'I get db %s', len(db))
             rospy.loginfo(rospy.get_caller_id() + 'I get good corners %s',
                           len(good_corners))

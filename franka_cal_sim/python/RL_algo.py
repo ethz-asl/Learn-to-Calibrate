@@ -74,10 +74,11 @@ class ActorCritic:
     def __init__(self, sess):
         self.sess = sess
 
-        self.learning_rate = 7e-5
+        self.critic_learning_rate = 5e-6
+        self.actor_learning_rate = 5e-6
         self.num_trial = 1
         self.epsilon = .9
-        self.epsilon_decay = .995
+        self.epsilon_decay = .99995
         self.gamma = .90
         self.tau   = .01
         self.obs_dim = 4
@@ -102,7 +103,7 @@ class ActorCritic:
         self.actor_grads = tf.gradients(self.actor_model.output,
                                         actor_model_weights, -self.actor_critic_grad) # dC/dA (from actor)
         grads = zip(self.actor_grads, actor_model_weights)
-        self.optimize = tf.train.AdamOptimizer(self.learning_rate).apply_gradients(grads)
+        self.optimize = tf.train.AdamOptimizer(self.actor_learning_rate).apply_gradients(grads)
 
         # ===================================================================== #
         #                              Critic Model                             #
@@ -167,7 +168,7 @@ class ActorCritic:
         output = Dense(1, activation='linear')(merged_h1)
         model  = Model([state_input,act_hist_input,action_input],output)
 
-        adam  = Adam(lr=self.learning_rate)
+        adam  = Adam(lr=self.critic_learning_rate)
         model.compile(loss="mse", optimizer=adam)
         return state_input, act_hist_input, action_input, model
 
@@ -213,7 +214,7 @@ class ActorCritic:
         #print(evaluation.history)
 
     def train(self):
-        batch_size = 16
+        batch_size = 32
         if len(self.memory) < batch_size:
             return
         rewards = []
@@ -254,8 +255,9 @@ class ActorCritic:
         self.epsilon *= self.epsilon_decay
         rospy.loginfo(rospy.get_caller_id() + 'decay %s',self.epsilon)
         if np.random.random() < self.epsilon:
-            return np.random.rand(36)*0.03-0.015+self.actor_model.predict([cur_state,cur_act_hist])*0.025
-        return self.actor_model.predict([cur_state,cur_act_hist])*0.04
+            ##Change to normal, random or normal is better?
+            return np.random.normal(size=(36,))*0.01+self.actor_model.predict([cur_state,cur_act_hist])*0.03
+        return self.actor_model.predict([cur_state,cur_act_hist])*0.03
 
 
 
@@ -299,6 +301,7 @@ def simulation():
         for j in range(trial_len):
             #env.render()
             print("trial:" + str(i))
+            print("step:" + str(j))
             obs_seq = np.asarray(obs_list)
             act_seq = np.asarray(act_list)
             obs_seq = obs_seq.reshape((1, -1, obs_dim))
@@ -308,13 +311,11 @@ def simulation():
             cur_state = cur_state.reshape(obs_dim)
             new_state, reward, done = step(cur_state,action)
             reward_sum += reward
-            reward+=reward
             rospy.loginfo(rospy.get_caller_id() + 'got reward %s',reward)
             if j == (trial_len - 1):
                 done = True
-                rospy.loginfo(rospy.get_caller_id() + 'trial %s',i)
-                rospy.loginfo(rospy.get_caller_id() + 'got total reward %s',reward_sum)
-                reward_list.append(reward_sum)
+
+
 
             actor_critic.train()
             actor_critic.update_target()
@@ -341,6 +342,10 @@ def simulation():
 
             actor_critic.remember(obs_seq, act_seq, action, reward, next_obs_seq, next_act_seq, done)
             cur_state = new_state
+            if done:
+                rospy.loginfo(rospy.get_caller_id() + 'got total reward %s',reward_sum)
+                reward_list.append(reward_sum)
+                break
 
         if (i % 10 == 0) and i!=0:
             actor_critic.actor_model.save_weights('/home/yunke/prl_proj/panda_ws/src/franka_cal_sim/python/checkpoints/actor_checkpoint ')
@@ -349,6 +354,7 @@ def simulation():
             ax.plot(reward_list)
             fig.savefig('/home/yunke/prl_proj/panda_ws/src/franka_cal_sim/python/test.png')
             np.savetxt('/home/yunke/prl_proj/panda_ws/src/franka_cal_sim/python/action.txt', action, fmt='%f')
+
             #plt.show()
         #     reset()
         #     cur_state = np.zeros(obs_dim)

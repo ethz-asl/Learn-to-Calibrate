@@ -56,7 +56,7 @@ namespace franka_cal_sim
 //            waypoints.push_back(cur_pose.pose);
 //            init = 0;
 //		}
-        waypoints.push_back(final_pose);
+//        waypoints.push_back(final_pose);
 		geometry_msgs::Pose pose;
 
 

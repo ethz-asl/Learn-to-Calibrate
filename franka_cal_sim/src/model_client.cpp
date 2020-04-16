@@ -47,7 +47,7 @@ namespace franka_cal_sim
              for(int i=0;i<act_len;i++)
              {
                  random_numbers::RandomNumberGenerator rand_gen;
-                 double cur_act = 0.00;
+                 double cur_act = 0.01;
 //                 if(i>17)
 //                 {
 //                     cur_act *=1;
@@ -81,11 +81,11 @@ namespace franka_cal_sim
              //augment rotation
              for(int i=18;i<36;i++)
              {
-                 action_srv.request.action[i]*=4;
-//                 if(i>23&&i<30)
-//				{
-//                    action_srv.request.action[i]*=1.5;
-//				}
+                 action_srv.request.action[i]*=2;
+                 if(i>23&&i<30)
+				{
+                    action_srv.request.action[i]*=2;
+				}
              }
              //pass it to the action service
              client.call(action_srv);
@@ -114,7 +114,7 @@ namespace franka_cal_sim
              post_error = sqrt(post_error);
              double err_change = post_error-pre_error;
 
-             res.reward = (2*estimate_srv.response.obs+estimate_srv.response.coverage*2-err_change/500-action_srv.response.path_len/2)*100;
+             res.reward = (estimate_srv.response.obs+estimate_srv.response.coverage-err_change/300-action_srv.response.path_len/4)*100;
              ROS_INFO("I got error %f",post_error);
              ROS_INFO("I got params %f",res.next_state);
              ROS_INFO("I got err_change %f",post_error-pre_error);
