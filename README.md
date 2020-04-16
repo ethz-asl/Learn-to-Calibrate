@@ -33,7 +33,7 @@ roslaunch franka_cal_sim action_srv_nodelet.launch
 ```
 
 ### 1.4 Code framework:
-<img src="support_file/img/Selection_010.png" width = 100% height = 100% div align=left />
+
 
 
 ## 2 Development
