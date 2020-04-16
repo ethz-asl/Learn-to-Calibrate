@@ -8,6 +8,8 @@ Since visual-inertial systems have been prevailed in a wide range of application
 * [Learn to Calibration: RL model for Camera Calibration.pdf](https://github.com/clthegoat/Learn-to-Calibrate/blob/master/Learn%20to%20Calibration:%20RL%20model%20for%20Camera%20Calibration.pdf)
 * [Slides 09.04.2020/16.04.2020](https://docs.google.com/presentation/d/1DPJb24JQD701VRsQbYJ4nKLdskhTotXbzlAWpr1vjmk/edit?usp=sharing)
 * [Slides 02.04.2020](https://docs.google.com/presentation/d/1Za7tgKgjiNe5ZtPUaQ1Bm_m_TqmLSi22NiF5j9SeCd0/edit?usp=sharing)
+* [PLR_Proposal_Chen_Ao.pdf](https://github.com/clthegoat/Learn-to-Calibrate/blob/master/PLR_Proposal_Chen_Ao.pdf)
+
 ### 1.3 Build Instructions for Ubuntu 18.04 LTS:
 
 *Install required dependencies:*
@@ -29,11 +31,11 @@ cd ../
 catkin build
 source ~/catkin_ws/devel/setup.bash
 ```
-(if you fail in this step, try to find another computer with clean system or reinstall Ubuntu and ROS)
+(Note: please change the file saving directory in *franka_cal_sim/python/RL_algo.py* before training.)
 
 ### 1.4 Training:
 ```
-roslaunch franka_cal_sim action_srv_nodelet.launch
+roslaunch franka_cal_sim action_srv_nodelet_checkerboard.launch
 ```
 
 ### 1.5 Code framework:
@@ -62,8 +64,10 @@ roslaunch franka_cal_sim action_srv_nodelet.launch
 ### 2.4 Useful links:
 * [Github repo: Kalibr](https://github.com/ethz-asl/kalibr)
 * [Github repo: franka_gazebo](https://github.com/mkrizmancic/franka_gazebo.git)
-* [Blog: Integrating FRANKA EMIKA Panda robot into Gazebo](https://erdalpekel.de/?p=55)
+* [Github repo: panda_moveit_config](https://github.com/erdalpekel/panda_moveit_config)
+* [Github repo: franka_ros](https://github.com/erdalpekel/franka_ros)
 * [Github repo: panda_simulation](https://github.com/erdalpekel/panda_simulation.git)
 * [Github repo: ROS integration for Franka Emika research robots](https://github.com/frankaemika/franka_ros.git)
+* [Blog: Integrating FRANKA EMIKA Panda robot into Gazebo](https://erdalpekel.de/?p=55)
 * [Can I simulate franka panda in Gazebo #44](https://github.com/frankaemika/franka_ros/issues/44)
 * [DE3-Panda-Wall: Running on Gazebo](https://de3-panda-wall.readthedocs.io/en/latest/gazebo_problems.html)
