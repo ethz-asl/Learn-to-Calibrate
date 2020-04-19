@@ -94,7 +94,7 @@
 	      <update_rate>7.0</update_rate><!--20-->
 	      <camera name="camera">
                 <pose>0.0 0.0 0.1 0 -1.57 0</pose>
-		<horizontal_fov>1</horizontal_fov>
+		<horizontal_fov>1.0</horizontal_fov>
 		<image>
 		  <width>640</width>
 		  <height>480</height>

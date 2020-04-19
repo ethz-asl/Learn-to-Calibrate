@@ -25,7 +25,7 @@
 <!-- load the controllers -->
 <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="joint_state_controller panda_hand_controller panda_arm_controller" />
 
-<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -Y 3.1415926 -urdf -model panda"/>
+<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -Y 3.1415926 -urdf -model panda" output="screen"/>
 
 <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen" />
 

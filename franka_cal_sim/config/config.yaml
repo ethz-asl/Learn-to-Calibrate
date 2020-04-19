@@ -1,0 +1,4 @@
+actor_checkpoint: /home/felix/panda_ws/src/franka_cal_sim/python/checkpoints/actor_checkpoint
+critic_checkpoint: /home/felix/panda_ws/src/franka_cal_sim/python/checkpoints/critic_checkpoint
+figure_path: /home/felix/panda_ws/src/franka_cal_sim/python/test.png
+action_path: /home/felix/panda_ws/src/franka_cal_sim/python/action.txt

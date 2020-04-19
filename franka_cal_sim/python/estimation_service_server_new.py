@@ -1,41 +1,3 @@
-#!/usr/bin/env python
-# Software License Agreement (BSD License)
-#
-# Copyright (c) 2008, Willow Garage, Inc.
-# All rights reserved.
-#
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions
-# are met:
-#
-#  * Redistributions of source code must retain the above copyright
-#    notice, this list of conditions and the following disclaimer.
-#  * Redistributions in binary form must reproduce the above
-#    copyright notice, this list of conditions and the following
-#    disclaimer in the documentation and/or other materials provided
-#    with the distribution.
-#  * Neither the name of Willow Garage, Inc. nor the names of its
-#    contributors may be used to endorse or promote products derived
-#    from this software without specific prior written permission.
-#
-# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-# "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-# LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
-# FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
-# COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-# INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
-# BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-# LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-# CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-# LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
-# ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-# POSSIBILITY OF SUCH DAMAGE.
-#
-# Revision $Id$
-
-## Simple talker demo that listens to std_msgs/Strings published
-## to the 'chatter' topic
-
 from __future__ import print_function
 from calibrator import Calibrator, MonoCalibrator, StereoCalibrator, Patterns
 from calibrator import CAMERA_MODEL
@@ -91,6 +53,7 @@ min_x = 0
 min_y = 0
 obs_n = 0
 cov_n = 0
+
 
 class ChessboardInfo(object):
     def __init__(self, n_cols=0, n_rows=0, dim=0.0):
@@ -211,7 +174,7 @@ def _get_corners(img, board, refine=True, checkerboard_flags=0):
     (ok, corners) = cv2.findChessboardCorners(
         mono, (board.n_cols, board.n_rows),
         flags=cv2.CALIB_CB_ADAPTIVE_THRESH + cv2.CALIB_CB_FAST_CHECK
-              | checkerboard_flags)
+        | checkerboard_flags)
     if not ok:
         return (ok, corners)
 
@@ -608,7 +571,7 @@ def camera_intrinsic_calibration2(req, image_data):
         else:
             print("False")
         '''
-        progress = [0,0,0,0]
+        progress = [0, 0, 0, 0]
         # If found, add object points, image points (after refining them)
         if ok:
             # skew = _get_skew(corners2, board[1])
@@ -678,8 +641,10 @@ def compute_coverage(res, imgpoints):
     global min_x
     global min_y
     img_flat = np.reshape(np.asarray(imgpoints), (-1, 3))
-    res.coverage = np.max(img_flat, axis=0)[0] - max_x - np.min(img_flat, axis=0)[0] + min_x
-    res.coverage = res.coverage + np.max(img_flat, axis=0)[1] - max_y - np.min(img_flat, axis=0)[0] + min_y
+    res.coverage = np.max(img_flat, axis=0)[0] - max_x - np.min(
+        img_flat, axis=0)[0] + min_x
+    res.coverage = res.coverage + np.max(img_flat, axis=0)[1] - max_y - np.min(
+        img_flat, axis=0)[0] + min_y
     max_x = np.max(img_flat, axis=0)[0]
     max_y = np.max(img_flat, axis=0)[1]
     min_x = np.min(img_flat, axis=0)[0]
@@ -709,9 +674,8 @@ def estimate_callback(req):
     rospy.loginfo(rospy.get_caller_id() + 'I heard state %s', len(state_data))
     local_img_data = image_data
     t = 0
-    if req.reset==1:
+    if req.reset == 1:
         #clear all the record data
-
 
         del image_data[:]
         del imu_data[:]
@@ -726,15 +690,15 @@ def estimate_callback(req):
 
         #feed back the update
         res = estimateSrvResponse()
-        res.par_upd=[0,0,0,0]
+        res.par_upd = [0, 0, 0, 0]
         res.obs = 0
         res.coverage = 0
         return res
 
-    if not req.reset==1:
-        if len(image_data)==0:
+    if not req.reset == 1:
+        if len(image_data) == 0:
             res = estimateSrvResponse()
-            res.par_upd=[0,0,0,0]
+            res.par_upd = [0, 0, 0, 0]
             res.obs = 0
             res.coverage = 0
 
@@ -743,12 +707,13 @@ def estimate_callback(req):
         # camera intrinsic calibration
 
         # imgpoints, best_mtx = camera_intrinsic_calibration(req, image_data)
-        best_mtx, ipts, opts, progress = camera_intrinsic_calibration2(req, image_data)
+        best_mtx, ipts, opts, progress = camera_intrinsic_calibration2(
+            req, image_data)
         rospy.loginfo(rospy.get_caller_id() + 'I get parameters %s',
                       best_mtx[0, 0])
         # compute the results
         # compute the coverage
-        if len(good_corners)>0:
+        if len(good_corners) > 0:
             res = estimateSrvResponse()
             for c, b in good_corners:
                 imgpoints.append(c)  # just for coverage calculation.
@@ -756,7 +721,7 @@ def estimate_callback(req):
                           len(imgpoints))
 
             ####progress measures camera coverage
-            res.coverage = np.sum(progress)-cov_n
+            res.coverage = np.sum(progress) - cov_n
             cov_n = np.sum(progress)
             # get parameter update
             # compute the observation
@@ -765,9 +730,8 @@ def estimate_callback(req):
                 best_mtx[0, 0], best_mtx[1, 1], best_mtx[0, 2], best_mtx[1, 2]
             ]
 
-
-            res.obs = 1.0*len(db)/20.0-obs_n
-            obs_n = 1.0*len(db)/20.0
+            res.obs = 1.0 * len(db) / 20.0 - obs_n
+            obs_n = 1.0 * len(db) / 20.0
             rospy.loginfo(rospy.get_caller_id() + 'I get db %s', len(db))
             rospy.loginfo(rospy.get_caller_id() + 'I get good corners %s',
                           len(good_corners))
@@ -776,7 +740,7 @@ def estimate_callback(req):
             res = estimateSrvResponse()
             res.obs = 0
             res.coverage = 0
-            res.par_upd = [0,0,0,0]
+            res.par_upd = [0, 0, 0, 0]
             return res
 
 

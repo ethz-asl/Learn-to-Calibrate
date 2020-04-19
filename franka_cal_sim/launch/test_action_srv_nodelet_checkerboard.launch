@@ -15,7 +15,9 @@
 
 <node name="estimator" pkg="franka_cal_sim" type="estimation_service_server_new.py" output="screen"/>
 
-<node name="rl_client" pkg="franka_cal_sim" type="RL_algo_long_test.py" output="screen"/>
+<node name="rl_client" pkg="franka_cal_sim" type="RL_algo_long_test.py" output="screen">
+<rosparam command="load" file="$(find franka_cal_sim)/config/config.yaml" />
+</node>
 
 <node pkg="nodelet" type="nodelet" name="simulation_server" args="load franka_cal_sim/simulation_server standalone_nodelet" output="screen">
 </node>

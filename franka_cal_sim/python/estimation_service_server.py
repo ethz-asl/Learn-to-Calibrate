@@ -1,44 +1,6 @@
-#!/usr/bin/env python
-# Software License Agreement (BSD License)
-#
-# Copyright (c) 2008, Willow Garage, Inc.
-# All rights reserved.
-#
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions
-# are met:
-#
-#  * Redistributions of source code must retain the above copyright
-#    notice, this list of conditions and the following disclaimer.
-#  * Redistributions in binary form must reproduce the above
-#    copyright notice, this list of conditions and the following
-#    disclaimer in the documentation and/or other materials provided
-#    with the distribution.
-#  * Neither the name of Willow Garage, Inc. nor the names of its
-#    contributors may be used to endorse or promote products derived
-#    from this software without specific prior written permission.
-#
-# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-# "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-# LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
-# FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
-# COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-# INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
-# BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-# LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-# CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-# LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
-# ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-# POSSIBILITY OF SUCH DAMAGE.
-#
-# Revision $Id$
-
-## Simple talker demo that listens to std_msgs/Strings published
-## to the 'chatter' topic
-
 import rospy
 from std_msgs.msg import String
-from franka_cal_sim.srv import recordSrv,estimateSrv, recordSrvResponse, estimateSrvResponse
+from franka_cal_sim.srv import recordSrv, estimateSrv, recordSrvResponse, estimateSrvResponse
 from gazebo_msgs.msg import LinkStates
 from sensor_msgs.msg import Image
 from sensor_msgs.msg import Imu
@@ -76,18 +38,19 @@ def record_callback(req):
     del state_data[:]
     return True
 
+
 step = []
 ##helper functions
 # Arrays to store object points and image points from all the images.
-objpoints = [] # 3d point in real world space
-imgpoints = [] # 2d points in image plane.
-
+objpoints = []  # 3d point in real world space
+imgpoints = []  # 2d points in image plane.
 
 max_x = 0
 max_y = 0
 min_x = 0
 min_y = 0
 obs_n = 0
+
 
 def estimate_callback(req):
     global image_data
@@ -100,7 +63,7 @@ def estimate_callback(req):
     rospy.loginfo(rospy.get_caller_id() + 'I heard state %s', len(state_data))
     local_img_data = image_data
     t = 0
-    if req.reset==1:
+    if req.reset == 1:
         #clear all the record data
 
         global obs_n
@@ -117,16 +80,15 @@ def estimate_callback(req):
 
         #feed back the update
         res = estimateSrvResponse()
-        res.par_upd=[]
+        res.par_upd = []
         res.obs = 0
         res.coverage = 0
         return res
 
-
-    if not req.reset==1:
-        if len(image_data)==0:
+    if not req.reset == 1:
+        if len(image_data) == 0:
             res = estimateSrvResponse()
-            res.par_upd=[0,0,0,0]
+            res.par_upd = [0, 0, 0, 0]
             res.obs = 0
             res.coverage = 0
 
@@ -134,55 +96,69 @@ def estimate_callback(req):
 
         ##estimation
         # termination criteria
-        criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
-        criteria_cal = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
+        criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30,
+                    0.001)
+        criteria_cal = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30,
+                        0.001)
         # prepare object points, like (0,0,0), (1,0,0), (2,0,0) ....,(6,5,0)
-        objp = np.zeros((6*7,3), np.float32)
-        objp[:,:2] = np.mgrid[0:7,0:6].T.reshape(-1,2)
+        objp = np.zeros((6 * 7, 3), np.float32)
+        objp[:, :2] = np.mgrid[0:7, 0:6].T.reshape(-1, 2)
 
         rospy.loginfo(rospy.get_caller_id() + 'get corner')
 
         for img in local_img_data:
-            gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+            gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
             # Find the chess board corners
-            ret, corners = cv2.findChessboardCorners(gray, (7,6),flags=cv2.CALIB_CB_ADAPTIVE_THRESH + cv2.CALIB_CB_FAST_CHECK)
+            ret, corners = cv2.findChessboardCorners(
+                gray, (7, 6),
+                flags=cv2.CALIB_CB_ADAPTIVE_THRESH + cv2.CALIB_CB_FAST_CHECK)
 
             # If found, add object points, image points (after refining them)
-            if ret == True and len(corners)<50 and len(local_img_data)>30:
+            if ret == True and len(corners) < 50 and len(local_img_data) > 30:
                 objpoints.append(objp)
 
-                corners2 = cv2.cornerSubPix(gray,corners,(9,9),(-1,-1),criteria)
+                corners2 = cv2.cornerSubPix(gray, corners, (9, 9), (-1, -1),
+                                            criteria)
                 imgpoints.append(corners2)
 
         rospy.loginfo(rospy.get_caller_id() + 'compute intrinsics')
 
-        list1 = np.arange(0,len(imgpoints),1)
-        mtx = np.zeros((3,3))
-        if len(req.params)>3:
-            mtx[0,0] = req.params[0]
-            mtx[1,1] = req.params[1]
-            mtx[0,2] = req.params[2]
-            mtx[1,2] = req.params[3]
-        mtx[2,2] = 1
+        list1 = np.arange(0, len(imgpoints), 1)
+        mtx = np.zeros((3, 3))
+        if len(req.params) > 3:
+            mtx[0, 0] = req.params[0]
+            mtx[1, 1] = req.params[1]
+            mtx[0, 2] = req.params[2]
+            mtx[1, 2] = req.params[3]
+        mtx[2, 2] = 1
 
         #optimize data step by step based on sampled imgs, get best one
         min_error = 1000
         best_mtx = mtx
-        if len(imgpoints)<200 and len(local_img_data)>30:
+        if len(imgpoints) < 200 and len(local_img_data) > 30:
             for i in range(1):
                 cur_data = list1
-                if len(imgpoints)>40:
-                    cur_data = sample(list1,40)
+                if len(imgpoints) > 40:
+                    cur_data = sample(list1, 40)
                 cur_obj = list(objpoints[i] for i in cur_data)
                 cur_img = list(imgpoints[i] for i in cur_data)
                 try:
-                    ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(cur_obj, cur_img, gray.shape[::-1],cameraMatrix=mtx, distCoeffs=None, rvecs=None, tvecs=None, flags=0, criteria=criteria_cal)
+                    ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(
+                        cur_obj,
+                        cur_img,
+                        gray.shape[::-1],
+                        cameraMatrix=mtx,
+                        distCoeffs=None,
+                        rvecs=None,
+                        tvecs=None,
+                        flags=0,
+                        criteria=criteria_cal)
 
                 except:
-                    rvecs = np.asarray([1.0,0,0])
-                    tvecs = np.asarray([0,0,0])
-                    dist = np.asarray([0,0,0,0,0])
+                    rvecs = np.asarray([1.0, 0, 0])
+                    tvecs = np.asarray([0, 0, 0])
+                    dist = np.asarray([0, 0, 0, 0, 0])
                     rospy.loginfo(rospy.get_caller_id() + 'No image')
 
             # #evaluate
@@ -198,40 +174,45 @@ def estimate_callback(req):
             #     best_mtx = mtx
         best_mtx = mtx
 
-
-        rospy.loginfo(rospy.get_caller_id() + 'I get corners %s', len(imgpoints))
+        rospy.loginfo(rospy.get_caller_id() + 'I get corners %s',
+                      len(imgpoints))
         rospy.loginfo(rospy.get_caller_id() + 'I get parameters %s', best_mtx)
 
         ##compute the results
         #compute the coverage
         rospy.loginfo(rospy.get_caller_id() + 'send back')
-        if len(imgpoints)>0:
+        if len(imgpoints) > 0:
             res = estimateSrvResponse()
             global max_x
             global max_y
             global min_x
             global min_y
             global obs_n
-            img_flat = np.reshape(np.asarray(imgpoints),(-1,3))
-            res.coverage = np.max(img_flat,axis = 0)[0]-max_x-np.min(img_flat,axis = 0)[0]+min_x
-            res.coverage = res.coverage+np.max(img_flat,axis = 0)[1]-max_y-np.min(img_flat,axis = 0)[0]+min_y
+            img_flat = np.reshape(np.asarray(imgpoints), (-1, 3))
+            res.coverage = np.max(img_flat, axis=0)[0] - max_x - np.min(
+                img_flat, axis=0)[0] + min_x
+            res.coverage = res.coverage + np.max(
+                img_flat, axis=0)[1] - max_y - np.min(img_flat,
+                                                      axis=0)[0] + min_y
             res.obs = 0
-            if(len(imgpoints)<100):
-                res.obs = 1.0*len(imgpoints)/len(local_img_data)
-            max_x = np.max(img_flat,axis = 0)[0]
-            max_y = np.max(img_flat,axis = 0)[1]
-            min_x = np.min(img_flat,axis = 0)[0]
-            min_y = np.min(img_flat,axis = 0)[1]
+            if (len(imgpoints) < 100):
+                res.obs = 1.0 * len(imgpoints) / len(local_img_data)
+            max_x = np.max(img_flat, axis=0)[0]
+            max_y = np.max(img_flat, axis=0)[1]
+            min_x = np.min(img_flat, axis=0)[0]
+            min_y = np.min(img_flat, axis=0)[1]
             obs_n = res.obs
 
             #get parameter update
-            res.par_upd = [best_mtx[0,0],best_mtx[1,1],best_mtx[0,2],best_mtx[1,2]]
+            res.par_upd = [
+                best_mtx[0, 0], best_mtx[1, 1], best_mtx[0, 2], best_mtx[1, 2]
+            ]
             return res
         else:
             res = estimateSrvResponse()
             res.obs = 0
             res.coverage = 0
-            res.par_upd = [0,0,0,0]
+            res.par_upd = [0, 0, 0, 0]
             return res
 
 
@@ -249,12 +230,12 @@ def listener():
     rospy.Subscriber('/gazebo/link_states', LinkStates, state_callback)
 
     record_s = rospy.Service('record_service', recordSrv, record_callback)
-    estimate_s = rospy.Service('estimate_service', estimateSrv, estimate_callback)
-
-
+    estimate_s = rospy.Service('estimate_service', estimateSrv,
+                               estimate_callback)
 
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()
+
 
 if __name__ == '__main__':
     listener()
