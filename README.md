@@ -34,9 +34,14 @@ source ~/catkin_ws/devel/setup.bash
 ```
 (Note: please change the file saving directory in *franka_cal_sim/config/config.yaml* before training!)
 
-### 1.4 Training:
+### 1.4 Usage:
+##### Training:
 ```
 roslaunch franka_cal_sim action_srv_nodelet_checkerboard.launch
+```
+##### Testing:
+```
+roslaunch franka_cal_sim test_action_srv_nodelet_checkerboard.launch
 ```
 
 ### 1.5 Code framework:
