@@ -2,7 +2,7 @@
 
 ## 1. Introduction
 ### 1.1 Project description:
-Since visual-inertial systems have been prevailed in a wide range of applications, precise calibration is of great importance. Typically, it requires performing sophisticated motion primitives in front of a calibration target. In this project, instead of performing this task manually and empirically, our goal is to apply reinforcement learning to learn the best motion primitives for enough calibration precision. With this result, we aim to achieve automatic calibration of an arbitrary visual-inertial system using a robotic arm.
+We present a new approach to learn sufficiently informative motions necessary to calibrate a visual-inertial system using deep reinforcement learning. Precise calibration is essential to the applications of visualinertial systems. Typically, it requires performing sophisticated motions in front of a calibration target manually. Our key contribution is to model the calibration process as a partially observable Markov decision process and use deep reinforcement learning to establish a sequence of trajectories performed by a robot arm to collect measurements considering observability, camera coverage, and path length. Our experiments show that it allows us to collect data efficiently that yield desired sensor parameters.
 
 ### 1.2 Documents:
 * [PLR_Progress_Chen_Ao.pdf](https://github.com/clthegoat/Learn-to-Calibrate/blob/master/Documents/PLR_Progress_Chen_Ao.pdf)
