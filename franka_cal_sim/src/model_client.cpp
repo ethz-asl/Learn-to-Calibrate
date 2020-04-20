@@ -105,7 +105,7 @@ bool model_client::step(franka_cal_sim::RLSrv::Request &req, franka_cal_sim::RLS
     double err_change = post_error - pre_error;
 
     res.reward = (estimate_srv.response.obs + estimate_srv.response.coverage - err_change / 300 -
-                  action_srv.response.path_len / 4) *
+                  action_srv.response.path_len / 5) *
                  100;
     ROS_INFO("I got error %f", post_error);
     ROS_INFO("I got params %f", res.next_state);

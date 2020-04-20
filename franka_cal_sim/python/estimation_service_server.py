@@ -1,3 +1,5 @@
+# This is the old version! Now we don't use it anymore.
+
 import rospy
 from std_msgs.msg import String
 from franka_cal_sim.srv import recordSrv, estimateSrv, recordSrvResponse, estimateSrvResponse

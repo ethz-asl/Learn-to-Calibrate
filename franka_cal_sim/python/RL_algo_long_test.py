@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import rospy
 from franka_cal_sim.srv import *
 import cv2
@@ -266,8 +268,8 @@ def reset():
 
 def simulation():
     #save path:
-    actor_checkpoint = rospy.get_param("/rl_client/actor_checkpoint")
-    critic_checkpoint = rospy.get_param("/rl_client/critic_checkpoint")
+    actor_checkpoint = rospy.get_param("/rl_client/test_actor_checkpoint")
+    critic_checkpoint = rospy.get_param("/rl_client/test_critic_checkpoint")
 
     reward_list = []
     obs_dim = 4

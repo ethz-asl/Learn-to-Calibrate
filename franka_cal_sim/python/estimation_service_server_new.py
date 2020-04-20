@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from __future__ import print_function
 from calibrator import Calibrator, MonoCalibrator, StereoCalibrator, Patterns
 from calibrator import CAMERA_MODEL
@@ -173,8 +175,8 @@ def _get_corners(img, board, refine=True, checkerboard_flags=0):
         mono = img
     (ok, corners) = cv2.findChessboardCorners(
         mono, (board.n_cols, board.n_rows),
-        flags=cv2.CALIB_CB_ADAPTIVE_THRESH + cv2.CALIB_CB_FAST_CHECK
-        | checkerboard_flags)
+        flags=cv2.CALIB_CB_ADAPTIVE_THRESH | cv2.CALIB_CB_NORMALIZE_IMAGE
+        | cv2.CALIB_CB_FAST_CHECK | checkerboard_flags)
     if not ok:
         return (ok, corners)
 
@@ -547,12 +549,18 @@ def camera_intrinsic_calibration2(req, image_data):
     for (sz, sq) in zip(options_size, options_square):
         size = tuple([int(c) for c in sz.split('x')])
         boards.append(ChessboardInfo(size[0], size[1], float(sq)))
+    # board = [
+    #     ChessboardInfo(i.n_cols, i.n_rows, i.dim)
+    #     for i in boards
+    # # ]
     board = [
         ChessboardInfo(max(i.n_cols, i.n_rows), min(i.n_cols, i.n_rows), i.dim)
         for i in boards
     ]
     rospy.loginfo(rospy.get_caller_id() + ' ' + 'The column of board %s',
                   board[1].n_cols)
+    rospy.loginfo(rospy.get_caller_id() + ' ' + 'The row of board %s',
+                  board[1].n_rows)
     # print(board[1].n_cols)
 
     for img in images:

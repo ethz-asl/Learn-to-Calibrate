@@ -1,3 +1,8 @@
+'''
+This is for single trajectory test!
+Usually we use RL_algo_long_test.py instead.
+'''
+###
 import rospy
 from franka_cal_sim.srv import *
 import cv2

@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import rospy
 from franka_cal_sim.srv import *
 import cv2
@@ -250,6 +252,13 @@ class ActorCritic:
         return self.actor_model.predict([cur_state, cur_act_hist]) * 0.03
 
 
+def normalize(v):
+    norm = np.linalg.norm(v)
+    if norm == 0:
+        return v
+    return v / norm
+
+
 def step(state, action):
     rospy.wait_for_service('/model_client/rl_service')
     rospy.loginfo(rospy.get_caller_id() + 'begin service')
@@ -275,7 +284,8 @@ def simulation():
     actor_checkpoint = rospy.get_param("/rl_client/actor_checkpoint")
     critic_checkpoint = rospy.get_param("/rl_client/critic_checkpoint")
     fig_path = rospy.get_param("/rl_client/figure_path")
-    action_path = rospy.get_param("/rl_client/action_path")
+    result_path = rospy.get_param("/rl_client/result_path")
+    test_result_path = rospy.get_param("/rl_client/test_result_path")
 
     #init
     obs_dim = 4
@@ -303,6 +313,7 @@ def simulation():
             print("trial:" + str(i))
             print("step:" + str(j))
             obs_seq = np.asarray(obs_list)
+            print("obs_seq" + str(obs_seq))
             act_seq = np.asarray(act_list)
             obs_seq = obs_seq.reshape((1, -1, obs_dim))
             act_seq = act_seq.reshape((1, -1, action_dim))
@@ -358,7 +369,7 @@ def simulation():
             fig, ax = plt.subplots()
             ax.plot(reward_list)
             fig.savefig(fig_path)
-            np.savetxt(action_path, action, fmt='%f')
+            np.savetxt(result_path, reward_list, fmt='%f')
 
             #test
             reset()
@@ -374,7 +385,9 @@ def simulation():
                 #env.render()
                 print("test:" + str(i))
                 print("step:" + str(j))
+
                 obs_seq = np.asarray(obs_list)
+                print("obs_seq:" + str(obs_seq))
                 act_seq = np.asarray(act_list)
                 obs_seq = obs_seq.reshape((1, -1, obs_dim))
                 act_seq = act_seq.reshape((1, -1, action_dim))
@@ -404,6 +417,7 @@ def simulation():
                     fig1.savefig(
                         '/home/yunke/prl_proj/panda_ws/src/franka_cal_sim/python/test_reward.png'
                     )
+                    np.savetxt(test_result_path, test_reward_list, fmt='%f')
                     break
 
 
