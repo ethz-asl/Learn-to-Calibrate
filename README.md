@@ -62,6 +62,7 @@ roslaunch franka_cal_sim action_srv_nodelet_checkerboard.launch
 
 ### 2.3 To do:
 * Midterm Report (ddl: 20200419)
+* Solve the initialization problem of the simulation
 * State estimation: Camera-IMU Calibration
 * Implement SAC
 
