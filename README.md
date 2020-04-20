@@ -58,10 +58,10 @@ roslaunch franka_cal_sim action_srv_nodelet_checkerboard.launch
 * 20200404: Fix the simulation
 * 20201304: Change the camera intrinsic calibration part
 * 20201604: Implement RL algorithm.
+* 20201904: Midterm Report
 * 20202004: RL: Hyperparameter tuning
 
 ### 2.3 To do:
-* Midterm Report (ddl: 20200419)
 * Solve the initialization problem of the simulation
 * State estimation: Camera-IMU Calibration
 * Implement SAC
