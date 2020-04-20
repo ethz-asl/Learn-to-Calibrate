@@ -2,7 +2,7 @@
 
 ## 1. Introduction
 ### 1.1 Project description:
-We present a new approach to learn sufficiently informative motions necessary to calibrate a visual-inertial system using deep reinforcement learning. Our key contribution is to model calibration as a partially observable Markov decision process and use deep reinforcement learning to establish a sequence of trajectories performed by a robot arm to collect measurements considering observability, camera coverage, and path length. Our experiments show that it allows us to collect data efficiently that yield desired sensor parameters.
+We present a new approach to learn sufficiently informative motions necessary to calibrate a visual-inertial system using deep RL. Our key contribution is to model calibration as a POMDP and use deep RL to establish a sequence of trajectories performed by a robot arm to collect measurements considering observability, camera coverage, and path length. Our experiments show that it allows us to collect data efficiently that yield desired sensor parameters.
 
 ### 1.2 Documents:
 * [PLR_Progress_Chen_Ao.pdf](https://github.com/clthegoat/Learn-to-Calibrate/blob/master/Documents/PLR_Progress_Chen_Ao.pdf)
