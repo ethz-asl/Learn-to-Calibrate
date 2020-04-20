@@ -59,7 +59,7 @@ roslaunch franka_cal_sim action_srv_nodelet_checkerboard.launch
 * 20201304: Change the camera intrinsic calibration part
 * 20201604: Implement RL algorithm.
 * 20201904: Midterm Report
-* 20202004: RL: Hyperparameter tuning
+* 20202004: Hyperparameter tuning for DDPG
 
 ### 2.3 To do:
 * Solve the initialization problem of the simulation
