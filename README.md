@@ -17,7 +17,7 @@ We present a new approach to learn sufficiently informative motions necessary to
 ```
 sudo apt-get install ros-melodic-moveit
 sudo apt install ros-melodic-libfranka ros-melodic-franka-ros
-sudo apt-get install ros-kinetic-moveit-visual-tools
+sudo apt-get install ros-melodic-moveit-visual-tools
 sudo apt-get install build-essential bc curl ca-certificates fakeroot gnupg2 libssl-dev lsb-release libelf-dev bison flex
 pip install opencv-python
 pip install opencv-contrib-python
