@@ -1,0 +1,7 @@
+<library path="lib/libnodelet_rosbag">
+  <class name="nodelet_rosbag/NodeletRosbag" type="nodelet_rosbag::NodeletRosbag" base_class_type="nodelet::Nodelet">
+    <description> 
+      A node to play and record rosbags.
+    </description>
+  </class>
+</library>
