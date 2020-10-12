@@ -9,7 +9,7 @@
 <node pkg="nodelet" type="nodelet" name="standalone_nodelet"  args="manager" output="screen"/>
 
 <!-- Spawn the checkbaord into Gazebo -->
-<node name="spawn_sdf" pkg="gazebo_ros" type="spawn_model" args="-file $(find franka_cal_sim)/models/small_checkerboard/small_checkerboard.sdf -sdf -model small_checkerboard -x -0.75 -y -0.35 -z 0.5 -P 1.57 -unpause" />
+
 
 <node name="image_view" pkg="image_view" type="image_view" args="image:=/simple_camera/image_raw"/>
 
@@ -23,8 +23,9 @@
 <node pkg="nodelet" type="nodelet" name="simulation_server" args="load franka_cal_sim/simulation_server standalone_nodelet" output="screen">
 </node>
 
-
 <node pkg="nodelet" type="nodelet" name="model_client" args="load franka_cal_sim/model_client standalone_nodelet" output="screen">
 </node>
+
+<node name="spawn_sdf" pkg="gazebo_ros" type="spawn_model" args="-file $(find franka_cal_sim)/models/small_checkerboard/small_checkerboard.sdf -sdf -model small_checkerboard -x -0.75 -y -0.35 -z 0.5 -P 1.57 -unpause" />
 
 </launch>

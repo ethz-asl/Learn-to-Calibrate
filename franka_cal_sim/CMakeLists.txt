@@ -12,10 +12,12 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   gazebo_msgs
   geometry_msgs
+  controller_manager_msgs
   tf
   tf2
   message_generation
   std_msgs
+  std_srvs
   random_numbers
   std_srvs
   nodelet
@@ -25,6 +27,8 @@ find_package(catkin REQUIRED COMPONENTS
   moveit_ros_planning_interface
   moveit_ros_perception
   moveit_msgs
+  nodelet_rosbag
+  rosbag_recorder
 )
 
 ## System dependencies are found with CMake's conventions
@@ -122,7 +126,7 @@ generate_messages(
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES franka_cal_sim
-  CATKIN_DEPENDS roscpp sensor_msgs gazebo_msgs geometry_msgs tf tf2 message_runtime std_msgs random_numbers std_srvs nodelet moveit_msgs moveit_core moveit_visual_tools moveit_ros_planning_interface
+  CATKIN_DEPENDS roscpp sensor_msgs gazebo_msgs geometry_msgs tf tf2 message_runtime std_msgs random_numbers std_srvs nodelet moveit_msgs moveit_core moveit_visual_tools std_srvs nodelet_rosbag rosbag_recorder moveit_ros_planning_interface controller_manager_msgs
 #  DEPENDS system_lib
 )
 
@@ -150,7 +154,7 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/franka_cal_sim_node.cpp)
+#add_executable(${PROJECT_NAME}_node src/initializer.cpp)
 add_library(${PROJECT_NAME} src/simulation_server.cpp src/model_client.cpp)
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -175,8 +179,8 @@ target_link_libraries(${PROJECT_NAME}
 #############
 catkin_install_python(PROGRAMS
   python/estimation_service_server.py
-  python/estimation_service_server_new.py
   python/RL_algo.py
+  python/estimation_service_server_imu.py
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/python
 )
 

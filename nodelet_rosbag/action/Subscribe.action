@@ -1,7 +1,0 @@
-#goal definition
-string[] topics
----
-#result definition
----
-#feedback
-int32 status

@@ -9,6 +9,10 @@
     <include>
       <uri>model://ground_plane</uri>
     </include>
+   <scene>
+    <!--<ambient>0.0 0.0 0.0 1.0</ambient>-->
+    <shadows>0</shadows>
+  </scene>
 
     <physics type='ode'>
 	  <max_step_size>0.001</max_step_size>

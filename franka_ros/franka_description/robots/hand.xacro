@@ -71,7 +71,8 @@
     <joint name="${ns}_finger_joint2" type="prismatic">
       <parent link="${ns}_hand"/>
       <child link="${ns}_rightfinger"/>
-      <origin xyz="0 0 0.0584" rpy="0 0 0"/>
+<origin xyz="0.0037056166097622547 -0.010068426985226817 0.04390725799202158" rpy="0.016289975357708444 -0.2681597342670168 -0.14954467264378038"/>
+<!--y+0.01:x-0.01,x-0.01:y-0.01,z+0.01,z+0.01-->
       <axis xyz="0 -1 0"/>
       <limit effort="20" lower="0.03" upper="0.03" velocity="0.2"/>
       <mimic joint="${ns}_finger_joint1" />

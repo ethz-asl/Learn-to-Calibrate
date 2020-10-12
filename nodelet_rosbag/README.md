@@ -1,1 +1,0 @@
-# nodelet_rosbag

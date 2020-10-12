@@ -91,10 +91,10 @@
         <!-- camera simulator plug-in -->
 	  <gazebo reference="${robot_name}_leftfinger">
 	    <sensor type="camera" name="camera">
-	      <update_rate>7.0</update_rate><!--20-->
+	      <update_rate>10</update_rate><!--10-->
 	      <camera name="camera">
-                <pose>0.0 0.0 0.1 0 -1.57 0</pose>
-		<horizontal_fov>1.0</horizontal_fov>
+                <pose>0.0 0.0 0.1 0 -1.5708 0</pose>
+<horizontal_fov>0.93137074148</horizontal_fov>
 		<image>
 		  <width>640</width>
 		  <height>480</height>
@@ -102,26 +102,52 @@
 		</image>
 		<clip>
 		  <near>0.005</near>
-		  <far>4</far>
+		  <far>100</far>
 		</clip>
+                <distortion>
+            <k1>0.2</k1>
+            <k2>0.2</k2>
+            <k3>0.0</k3>
+            <p1>-0.0000</p1>
+            <p2>-0.0000</p2>
+            <center>0.5 0.5</center>
+          </distortion>
 		<noise>
 		  <type>gaussian</type>
 		  <mean>0.0</mean>
 		  <stddev>0.0</stddev>
 		</noise>
+<lens>
+      <!-- type element is mandatory -->
+      <type>custom</type>
+      <!-- manually defined mapping function r = c1*f*fun(theta/c2 + c3) -->
+      <!-- More information here: https://en.wikipedia.org/wiki/Fisheye_lens#Mapping_function -->
+      <custom_function>
+        <c1>1.05</c1>
+        <!-- linear scaling -->
+        <c2>4</c2>
+        <!-- angle scaling -->
+        <f>1.0</f>
+        <!-- one more scaling parameter -->
+        <fun>tan</fun>
+        <!-- one of sin,tan,id -->
+      </custom_function>
+      <!-- if it is set to `true` your horizontal FOV will ramain as defined -->
+      <!-- othervise it depends on lens type and custom function, if there is one -->
+      <scale_to_hfov>true</scale_to_hfov>
+      <!-- clip everything that is outside of this angle -->
+      <cutoff_angle>3.1415</cutoff_angle>
+      <!-- resolution of the cubemap texture, the highter it is - the sharper is your image -->
+      <env_texture_size>512</env_texture_size>
+    </lens>
 	      </camera>
 	      <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
 		<alwaysOn>true</alwaysOn>
-		<updateRate>0.0</updateRate>
 		<cameraName>simple_camera</cameraName>
 		<imageTopicName>image_raw</imageTopicName>
 		<cameraInfoTopicName>camera_info</cameraInfoTopicName>
 		<frameName>camera_link</frameName>
-		<distortionK1>0.0</distortionK1>
-		<distortionK2>0.0</distortionK2>
-		<distortionK3>0.0</distortionK3>
-		<distortionT1>0.0</distortionT1>
-		<distortionT2>0.0</distortionT2>
+                <hackBaseline>0.0</hackBaseline>
 	      </plugin>
 	    </sensor>
 	  </gazebo>  
@@ -135,14 +161,14 @@
 	  <rpyOffset>0 0 0</rpyOffset>
 	  <serviceName>/imu/service</serviceName>
 	  <accelOffset>0 0 0</accelOffset>
-	  <accelDrift>0.006 0.006 0.006</accelDrift>
-	  <accelGaussianNoise>0.004 0.004 0.004</accelGaussianNoise>
+	  <accelDrift>0.006 0.006 0.006</accelDrift><!--0.006-->
+	  <accelGaussianNoise>0.004 0.004 0.004</accelGaussianNoise><!--0.004-->
 	  <rateDrift>0.000038785 0.000038785 0.000038785</rateDrift>
 	  <rateGaussianNoise>0.0003394 0.0003394 0.0003394</rateGaussianNoise>
 	  <yawOffset>0.0 0.0 0.0</yawOffset>
-	  <yawDrift>0.000038785 0.000038785 0.000038785</yawDrift>
+	  <yawDrift>0.0 0.0 0.0</yawDrift>
 	  <yawDriftFrequency>0.0 0.0 0.0</yawDriftFrequency>
-	  <yawGaussianNoise>0.0003394 0.0003394 0.0003394</yawGaussianNoise>
+	  <yawGaussianNoise>0.0 0.0 0.0</yawGaussianNoise>
 	  <gaussianNoise>0.0</gaussianNoise>
 	</plugin>
 	</gazebo>

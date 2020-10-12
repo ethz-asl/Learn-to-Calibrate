@@ -1,0 +1,29 @@
+%YAML:1.0
+Calibration_Time: "Tue Aug  8 22:00:14 2017"
+Image_Width: 1072
+Image_Height: 1920
+Calibration_Pattern: CHESSBOARD
+Board_Width: 12
+Board_Height: 17
+Square_Size: 2.5000000372529030e-02
+Calibration_Flags: "+FIX_K3 +FIX_K4 +FIX_K5 "
+Camera_Matrix: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [ 1.8532040955929899e+03, 0., 5.3488742500529372e+02, 0.,
+       1.8539053769057191e+03, 9.3665016534455742e+02, 0., 0., 1. ]
+Distortion_Coefficients: !!opencv-matrix
+   rows: 5
+   cols: 1
+   dt: d
+   data: [ 5.3631031595833795e-02, 5.8546496555231975e-02,
+       -4.6216798555226001e-04, 1.6745292279350978e-03, 0. ]
+Avg_Reprojection_Error: 2.4646799791395596e-01
+Per_View_Reprojection_Errors: !!opencv-matrix
+   rows: 9
+   cols: 1
+   dt: f
+   data: [ 2.96218574e-01, 1.62944779e-01, 1.72603622e-01,
+       1.63098812e-01, 2.74965405e-01, 2.24402994e-01, 2.50049621e-01,
+       2.72916853e-01, 3.36240202e-01 ]

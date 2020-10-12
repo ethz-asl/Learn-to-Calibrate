@@ -1,0 +1,10 @@
+#Accelerometers
+accelerometer_noise_density: 0.004   #Noise density (continuous-time)
+accelerometer_random_walk:   0.006   #Bias random walk
+
+#Gyroscopes
+gyroscope_noise_density:     0.000038785   #Noise density (continuous-time)
+gyroscope_random_walk:       0.0003394   #Bias random walk
+
+rostopic:                    /imu_real      #the IMU ROS topic
+update_rate:                 200.0      #Hz (for discretization of the values above)

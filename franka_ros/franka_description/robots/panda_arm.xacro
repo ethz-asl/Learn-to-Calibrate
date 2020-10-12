@@ -56,11 +56,11 @@
     </link>
     <joint name="${arm_id}_joint1" type="revolute">
       <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-2.8973" soft_upper_limit="2.8973"/>
-      <origin rpy="0 0 0" xyz="0 0 0.333"/>
+      <origin rpy="0 0 0.0" xyz="0 0 0.333"/>
       <parent link="${arm_id}_link0"/>
       <child link="${arm_id}_link1"/>
       <axis xyz="0 0 1"/>
-      <limit effort="87" lower="-2.8973" upper="2.8973" velocity="2.1750"/>
+      <limit effort="87" lower="-2.8973" upper="2.8973" velocity="2.1750"/> <!--effort 87-->
       <dynamics damping="${joint_damping}"/>
     </joint>
     <link name="${arm_id}_link2">
@@ -82,11 +82,11 @@
     </link>
     <joint name="${arm_id}_joint2" type="revolute">
       <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-1.7628" soft_upper_limit="1.7628"/>
-      <origin rpy="${-pi/2} 0 0" xyz="0 0 0"/>
+      <origin rpy="${-pi/2} 0 0" xyz="0 0 0"/><!--(0)-->
       <parent link="${arm_id}_link1"/>
       <child link="${arm_id}_link2"/>
       <axis xyz="0 0 1"/>
-      <limit effort="87" lower="-1.7628" upper="1.7628" velocity="2.1750"/>
+      <limit effort="87" lower="-1.7628" upper="1.7628" velocity="2.1750"/> <!--effort 87-->
       <dynamics damping="${joint_damping}"/>
     </joint>
     <link name="${arm_id}_link3">
@@ -108,11 +108,11 @@
     </link>
     <joint name="${arm_id}_joint3" type="revolute">
       <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-2.8973" soft_upper_limit="2.8973"/>
-      <origin rpy="${pi/2} 0 0" xyz="0 -0.316 0"/>
+      <origin rpy="${pi/2} 0 0" xyz="0 -0.316 0"/><!--r=pi/2-->
       <parent link="${arm_id}_link2"/>
       <child link="${arm_id}_link3"/>
       <axis xyz="0 0 1"/>
-      <limit effort="87" lower="-2.8973" upper="2.8973" velocity="2.1750"/>
+      <limit effort="87" lower="-2.8973" upper="2.8973" velocity="2.1750"/> <!--effort 87-->
       <dynamics damping="${joint_damping}"/>
     </joint>
     <link name="${arm_id}_link4">
@@ -134,11 +134,11 @@
     </link>
     <joint name="${arm_id}_joint4" type="revolute">
       <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-3.0718" soft_upper_limit="-0.0698"/>
-      <origin rpy="${pi/2} 0 0" xyz="0.0825 0 0"/>
+      <origin rpy="${pi/2} 1.0 0" xyz="0.0825 0 0"/> <!--0 p=${pi/4}-->
       <parent link="${arm_id}_link3"/>
       <child link="${arm_id}_link4"/>
       <axis xyz="0 0 1"/>
-      <limit effort="87" lower="-3.0718" upper="-0.0698" velocity="2.1750"/>
+      <limit effort="87" lower="-3.0718" upper="-0.0698" velocity="2.1750"/> <!--effort 87-->
       <dynamics damping="${joint_damping}"/>
     </joint>
     <link name="${arm_id}_link5">
@@ -186,7 +186,7 @@
     </link>
     <joint name="${arm_id}_joint6" type="revolute">
       <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-0.0175" soft_upper_limit="3.7525"/>
-      <origin rpy="${pi/2} 0 0" xyz="0 0 0"/>
+      <origin rpy="${pi/2} -${pi/2} 0" xyz="0 0 0"/> <!--p==0--><!---pi/2-->
       <parent link="${arm_id}_link5"/>
       <child link="${arm_id}_link6"/>
       <axis xyz="0 0 1"/>
