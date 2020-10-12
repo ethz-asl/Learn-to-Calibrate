@@ -45,12 +45,11 @@ source ~/catkin_ws/devel/setup.bash
 ##### Configuration:
 Please change the file saving directory in ***franka_cal_sim/config/config.yaml*** before training or testing!
 
-# command:
 train agent for camera intrinsic calibration: in src/franka_cal_sim/config/config.yaml, set "if_calibrate_intrinsic" to be "true"
 ```
 roslaunch franka_cal_sim cam_int_respawn.launch
 ```
-# command:
+
 train agent for camera-IMU extrinsic calibration: in src/franka_cal_sim/config/config.yaml, set "if_calibrate_intrinsic" to be "false"
 ```
 roslaunch franka_cal_sim cam_imu_respawn.launch
