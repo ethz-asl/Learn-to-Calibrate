@@ -45,27 +45,16 @@ source ~/catkin_ws/devel/setup.bash
 ##### Configuration:
 Please change the file saving directory in ***franka_cal_sim/config/config.yaml*** before training or testing!
 
-##### Training:
+# command:
+train agent for camera intrinsic calibration: in src/franka_cal_sim/config/config.yaml, set "if_calibrate_intrinsic" to be "true"
 ```
-roslaunch franka_cal_sim action_srv_nodelet_checkerboard.launch
+roslaunch franka_cal_sim cam_int_respawn.launch
 ```
-##### Testing:
+# command:
+train agent for camera-IMU extrinsic calibration: in src/franka_cal_sim/config/config.yaml, set "if_calibrate_intrinsic" to be "false"
 ```
-roslaunch franka_cal_sim test_action_srv_nodelet_checkerboard.launch
+roslaunch franka_cal_sim cam_imu_respawn.launch
 ```
-
-A video tutorial can be found here:
-
-[![alt text](https://github.com/clthegoat/Learn-to-Calibrate/blob/master/support_file/img/Selection_058.png)](https://drive.google.com/file/d/1GAEddBPQEpjtUcNeU-PW8x6wEEaoCc_R/view?usp=sharing)
-
-
-### 1.5 Code framework:
-#### Without Kalibr
-<img src="support_file/img/Selection_057.png" width = 100% height = 100% div align=left />
-
-#### With Kalibr
-<img src="support_file/img/Selection_010.png" width = 100% height = 100% div align=left />
-
 
 ## 2 Development
 ### 2.1 Timeline:
@@ -80,11 +69,6 @@ A video tutorial can be found here:
 * 20201604: Implement RL algorithm.
 * 20201904: Midterm Report
 * 20202004: Hyperparameter tuning for DDPG
-
-### 2.3 To do:
-* Solve the initialization problem of the simulation
-* State estimation: Camera-IMU Calibration
-* Implement SAC
 
 ### 2.4 Useful links:
 * [Github repo: Kalibr](https://github.com/ethz-asl/kalibr)
