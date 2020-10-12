@@ -25,6 +25,10 @@ pip install --upgrade tensorflow
 sudo apt-get install python-setuptools python-rosinstall ipython libeigen3-dev libboost-all-dev doxygen libopencv-dev ros-melodic-vision-opencv ros-melodic-image-transport-plugins ros-melodic-cmake-modules software-properties-common software-properties-common libpoco-dev python-matplotlib python-scipy python-git python-pip ipython libtbb-dev libblas-dev liblapack-dev python-catkin-tools libv4l-dev
 sudo pip install python-igraph --upgrade
 sudo apt-get install build-essential libgtk-3-dev
+pip3 install pyyaml
+pip3 install rospkg
+pip3 install matplotlib
+pip3 install pyswarm
 ```
 
 *Clone the repository and catkin build:*
