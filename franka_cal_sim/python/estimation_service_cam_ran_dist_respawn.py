@@ -799,9 +799,9 @@ def spawn_model(spawn_flag):
             if line[0:4]=="<k1>":
                 line = "<k1>"+str(sample_k[0])+"</k1>\n"
             if line[0:4]=="<k2>":
-                line = "<k2>"+str(sample_k[1])+"</k1>\n"
+                line = "<k2>"+str(sample_k[1])+"</k2>\n"
             if line[0:4]=="<k3>":
-                line = "<k3>"+str(sample_k[2])+"</k1>\n"
+                line = "<k3>"+str(sample_k[2])+"</k3>\n"
 
             new_string_list.append(line)
 
