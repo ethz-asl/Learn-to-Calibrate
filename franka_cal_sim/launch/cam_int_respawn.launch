@@ -17,7 +17,7 @@
 <rosparam command="load" file="$(find franka_cal_sim)/config/config.yaml" />
 </node>
 
-<node name="estimator" pkg="franka_cal_sim" type="estimation_service_server_cam_respawn.py" output="screen">
+<node name="estimator" pkg="franka_cal_sim" type="estimation_service_cam_ran_dist_respawn.py" output="screen">
 </node>
 
 

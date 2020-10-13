@@ -94,7 +94,7 @@
 	      <update_rate>10</update_rate><!--10-->
 	      <camera name="camera">
                 <pose>0.0 0.0 0.1 0 -1.5708 0</pose>
-<horizontal_fov>0.93137074148</horizontal_fov>
+<horizontal_fov>1.00669419933</horizontal_fov>
 		<image>
 		  <width>640</width>
 		  <height>480</height>
@@ -105,11 +105,11 @@
 		  <far>100</far>
 		</clip>
                 <distortion>
-            <k1>0.2</k1>
-            <k2>0.2</k2>
-            <k3>0.0</k3>
-            <p1>-0.0000</p1>
-            <p2>-0.0000</p2>
+<k1>0.23867294373626566</k1>
+<k2>0.69533407092404</k1>
+<k3>-0.0976259174516057</k1>
+<p1>-0.0000</p1>
+<p2>-0.0000</p2>
             <center>0.5 0.5</center>
           </distortion>
 		<noise>

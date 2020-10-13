@@ -120,14 +120,20 @@ def image_callback(data):
     # convert ros msg to cv bridge
     img = bridge.imgmsg_to_cv2(data, desired_encoding='passthrough')
     image_data.append(img)
+    if len(image_data)>1000:
+        image_data.pop(0)
 
 
 def imu_callback(data):
     imu_data.append(data)
+    if len(imu_data)>2000:
+        imu_data.pop(0)
 
 
 def state_callback(data):
     state_data.append(data)
+    if len(state_data)>2000:
+        state_data.pop(0)
 
 
 def record_callback(req):
