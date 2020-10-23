@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/yunke/prl_proj/panda_ws/src/franka_cal_sim/cmake-build-debug/devel/setup.sh

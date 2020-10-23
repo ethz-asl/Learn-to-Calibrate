@@ -1,0 +1,8 @@
+prefix=/home/yunke/prl_proj/panda_ws/src/franka_cal_sim/cmake-build-debug/devel
+
+Name: franka_cal_sim
+Description: Description of franka_cal_sim
+Version: 0.0.0
+Cflags: -I/home/yunke/prl_proj/panda_ws/src/franka_cal_sim/cmake-build-debug/devel/include -I/home/yunke/prl_proj/panda_ws/src/franka_cal_sim/include
+Libs: -L${prefix}/lib -lfranka_cal_sim
+Requires: roscpp sensor_msgs gazebo_msgs geometry_msgs tf tf2 message_runtime std_msgs random_numbers std_srvs nodelet moveit_msgs moveit_core moveit_visual_tools moveit_ros_planning_interface
