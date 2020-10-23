@@ -1,9 +1,11 @@
 # Learning Trajectories for Visual-Inertial System Calibration via Model-based Heuristic Deep Reinforcement Learning
 
-This repo contains the code for our CoRL2020 paper. Developed by
+This repo contains the code for our CoRL 2020 paper. <br> Developed by
 [Le Chen](https://github.com/clthegoat) and
 [Yunke Ao](https://github.com/ToolManChang)
 from [Autonomous Systems Lab (ASL)](https://asl.ethz.ch/) at [ETH Zurich](https://ethz.ch/en.html).
+
+<img src="support_file/img/framework.png" width="1000">
 
 ## 1 Introduction
 In this work we present a novel approach to obtain favorable trajectories for visual-inertial system calibration, using model-based deep reinforcement learning. Our key contribution is to model the calibration process as a Markov decision process and then use model-based deep reinforcement learning with particle swarm optimization to establish a sequence of calibration trajectories to be performed by a robot arm.
