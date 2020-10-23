@@ -1,14 +1,8 @@
 # Learning Trajectories for Visual-Inertial System Calibration via Model-based Heuristic Deep Reinforcement Learning
 
-**Authors:**
-[Le Chen](https://github.com/clthegoat),
-[Yunke Ao](https://github.com/ToolManChang),
-[Florian Tschopp](https://github.com/floriantschopp),
-[Andrei Cramariuc](https://github.com/smauq),
-[Michel Breyer](https://github.com/mbreyer),
-[Jen Jen Chung](http://jenjenchung.github.io/anthropomorphic/index.html),
-[Roland Siegwart](https://asl.ethz.ch/the-lab/people/person-detail.Mjk5ODE=.TGlzdC8yMDI4LDEyMDExMzk5Mjg=.html),
-[Cesar Cadena](http://n.ethz.ch/~cesarc/)
+This repo contains the code for our CoRL2020 paper. The code is developed by
+[Le Chen](https://github.com/clthegoat) and
+[Yunke Ao](https://github.com/ToolManChang)
 from [Autonomous Systems Lab (ASL)](https://asl.ethz.ch/) at [ETH Zurich](https://ethz.ch/en.html).
 
 ## 1 Introduction
