@@ -1,6 +1,6 @@
 # Learning Trajectories for Visual-Inertial System Calibration via Model-based Heuristic Deep Reinforcement Learning
 
-This repo contains the code for our CoRL2020 paper. The code is developed by
+This repo contains the code for our CoRL2020 paper. Developed by
 [Le Chen](https://github.com/clthegoat) and
 [Yunke Ao](https://github.com/ToolManChang)
 from [Autonomous Systems Lab (ASL)](https://asl.ethz.ch/) at [ETH Zurich](https://ethz.ch/en.html).
