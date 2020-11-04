@@ -97,7 +97,22 @@ cd src/franka_cal_sim/python/
 python3 RL_algo_test.py
 ```
 
-## 3 Code reference:
+## 3 Citing
+
+Please cite the [following paper]() when using our code for your research:
+
+```bibtex
+@inproceedings{xie2020learning,
+ title={Learning Latent Representations to Influence Multi-Agent Interaction},
+ author={Xie, Annie and Losey, Dylan and Tolsma, Ryan and Finn, Chelsea and Sadigh, Dorsa},
+ booktitle={Proceedings of the 4th Conference on Robot Learning (CoRL)},
+ year={2020},
+ month-{November}
+}
+```
+
+
+## 4 Code reference:
 
 Our code is based on the following repositories:
 
