@@ -107,7 +107,7 @@ Please cite the [following paper](https://arxiv.org/abs/2011.02574) when using o
  author={Chen, Le and Ao, Yunke and Tschopp, Florian and Cramariuc, Andrei and Breyer, Michel and Chung, Jen Jen and Siegwart, Roland and Cadena, Cesar},
  booktitle={Proceedings of the 4th Conference on Robot Learning (CoRL)},
  year={2020},
- month-{November}
+ month={November}
 }
 ```
 
