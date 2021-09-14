@@ -1,0 +1,2 @@
+rosbag_path: /home/yunke/prl_proj/panda_ws/src/franka_cal_sim/python/kalibr
+rosbag_record_topics: /simple_camera/image_raw
