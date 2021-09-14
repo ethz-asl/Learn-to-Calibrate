@@ -1,0 +1,9 @@
+bool reset
+bool restart
+bool done
+---
+float64[] par_upd
+float64 info_gain
+float64 empirical
+float64 cal_err
+bool done

@@ -1,5 +1,0 @@
-4.18 add normalize
-#4.18 action range 0.03
-4.20 no normalize learning rate 5e-5 exploration 0.003 get good result
-4.20 normalize test
-

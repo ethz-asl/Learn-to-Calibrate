@@ -1,3 +1,0 @@
-namespace aslam {
-
-}  // namespace aslam

@@ -1,7 +1,0 @@
-Change:
-learning rate
-restore replay_buffer.txt
-train_batch size
-
-Start new:
-save old buffer!

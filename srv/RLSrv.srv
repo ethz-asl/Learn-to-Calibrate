@@ -1,0 +1,8 @@
+bool reset
+float64[] action
+bool last
+bool restart
+---
+float64 reward
+float64[] next_state
+bool done

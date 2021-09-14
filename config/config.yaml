@@ -1,0 +1,61 @@
+actor_checkpoint: /home/yunke/prl_proj/panda_ws/src/franka_cal_sim_single/python/checkpoints/actor_checkpoint
+critic_checkpoint: /home/yunke/prl_proj/panda_ws/src/franka_cal_sim_single/python/checkpoints/critic_checkpoint
+test_actor_checkpoint: "/home/yunke/prl_proj/panda_ws/src/franka_cal_sim_single/python/results/simplified_result/03_08_rand_dist_center_ext/actor_checkpoint"
+test_critic_checkpoint: "/home/yunke/prl_proj/panda_ws/src/franka_cal_sim_single/python/results/simplified_result/03_08_rand_dist_center_ext/critic_checkpoint"
+# test_actor_checkpoint: "/home/yunke/prl_proj/panda_ws/src/franka_cal_sim_single/python/results/simplified_result/08_25_ablation_only_motion/actor_checkpoint"
+# test_critic_checkpoint: "/home/yunke/prl_proj/panda_ws/src/franka_cal_sim_single/python/results/simplified_result/08_25_ablation_only_motion/critic_checkpoint"
+result_path: /home/yunke/prl_proj/panda_ws/src/franka_cal_sim_single/python/result.txt
+test_result_path: /home/yunke/prl_proj/panda_ws/src/franka_cal_sim_single/python/test_result.txt
+kalibr_path: /home/yunke/prl_proj/panda_ws/src/franka_cal_sim_single/python/kalibr/
+python_path: /home/yunke/prl_proj/panda_ws/src/franka_cal_sim_single/python/
+cam_ground_truth: [585.7561,585.7561,320.5,240.5]
+imu_cam_ground_truth: [-0.06,-0.1,0, -1.5708,-1.5708,0]
+action_path: /home/yunke/prl_proj/panda_ws/src/franka_cal_sim_single/python/action.txt
+reward_path: /home/yunke/prl_proj/panda_ws/src/franka_cal_sim_single/python/reward_loss.png
+trans_path: /home/yunke/prl_proj/panda_ws/src/franka_cal_sim_single/python/trans_loss.png
+train_fig_path: /home/yunke/prl_proj/panda_ws/src/franka_cal_sim_single/python/train.png
+test_fig_path: /home/yunke/prl_proj/panda_ws/src/franka_cal_sim_single/python/test.png
+sensor_gazebo_path: /home/yunke/prl_proj/panda_ws/src/franka_ros/franka_description/robots/panda.gazebo.xacro
+hand_path: /home/yunke/prl_proj/panda_ws/src/franka_ros/franka_description/robots/hand.xacro
+camera_topic: /simple_camera/image_raw
+imu_topic: /imu_real
+
+num_steps: 13
+cal_time: 0
+
+# kalibr 
+intrinsic_using_kalibr: true
+num_of_optimization: 30
+
+# policy
+if_intrinsic_policy: false # test intrinsic policy
+if_ext_policy: false # test extrinsic policy, default ext + int policy
+if_test_intrinsic: false # test intrinsic calibration
+if_ext_intrinsic: true # intrinsic + extrinsic test
+if_test_random: true ##############
+test: true
+ablation: none
+
+# simulation
+if_curve: false
+if_change_sensors: true
+if_change_distortion: true
+if_cal_distortion: true
+if_change_dist_center: true
+
+
+# init parameters
+calibration_err: 1
+a_opt: 0
+translation_and_rotation: 0
+total_translation: 0
+total_rotation: 0
+K: [0., 0.]
+center: [0.5, 0.5]
+reproj_err: 0
+
+
+
+
+
+

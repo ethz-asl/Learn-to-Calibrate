@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<launch>
+
+<!-- load the controllers -->
+
+<node name="controller_killer" pkg="controller_manager" type="controller_manager" respawn="false" output="screen" args="kill joint_state_controller panda_hand_controller panda_arm_controller" />
+
+<!--<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen" />
+
+<include file="$(find panda_moveit_config)/launch/planning_context.launch">
+  <arg name="load_robot_description" value="true"/>
+</include>
+<include file="$(find panda_moveit_config)/launch/move_group.launch" respawn="false"/>
+<node name="joint_state_desired_publisher" pkg="topic_tools" type="relay" args="joint_states joint_states_desired" respawn="false"/>-->
+<!--<node pkg="franka_cal_sim" type="franka_cal_sim_node" name="franka_cal_sim_node" />-->
+
+</launch>
